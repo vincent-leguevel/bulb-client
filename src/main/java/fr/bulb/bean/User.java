@@ -25,6 +25,10 @@ public class User {
         this.confPwd = confPwd;
     }
 
+    public User() {
+
+    }
+
 
     public String getPseudo() {
         return pseudo;
@@ -54,7 +58,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String mail) {
+    public void setEmail(String email) {
         this.email = email;
     }
 

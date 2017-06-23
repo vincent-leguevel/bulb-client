@@ -61,12 +61,12 @@ public class UserService {
 
         post.addHeader("UserConnected-Agent", USER_AGENT);
 
-        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+        List<NameValuePair> urlParameters = new ArrayList<>();
         urlParameters.add(new BasicNameValuePair("email", user.getEmail()));
         urlParameters.add(new BasicNameValuePair("confEmail", user.getConfEmail()));
         urlParameters.add(new BasicNameValuePair("pseudo", user.getPseudo()));
         urlParameters.add(new BasicNameValuePair("firstName", user.getFirstame()));
-        urlParameters.add(new BasicNameValuePair("lastName", user.getPseudo()));
+        urlParameters.add(new BasicNameValuePair("lastName", user.getLastName()));
         urlParameters.add(new BasicNameValuePair("pwd", user.getPwd()));
         urlParameters.add(new BasicNameValuePair("confPwd", user.getConfPwd()));
 
