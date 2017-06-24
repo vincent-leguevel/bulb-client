@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Fichier">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Nouveau" />
+                  <MenuItem mnemonicParsing="false" text="Ouvrir" />
+                  <MenuItem mnemonicParsing="false" text="Enregistrer" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Quitter" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edition">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Editer" />
+              <MenuItem mnemonicParsing="false" text="Supprimer" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Vue">
+            <items>
+                  <CheckMenuItem mnemonicParsing="false" text="Annimation" />
+                  <CheckMenuItem mnemonicParsing="false" text="Grille" />
+                  <CheckMenuItem mnemonicParsing="false" text="Snap" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Aide">
+              <items>
+                <MenuItem mnemonicParsing="false" text="A propos" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <TabPane prefHeight="668.0" prefWidth="310.0" style="-fx-background-color: #B8BDC3;" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab closable="false" text="Composants passif">
+               <content>
+                  <Slider orientation="VERTICAL" />
+               </content>
+            </Tab>
+            <Tab closable="false" text="Composants actif">
+               <content>
+                  <Slider orientation="VERTICAL" />
+               </content>
+            </Tab>
+         </tabs>
+         <effect>
+            <DropShadow />
+         </effect>
+      </TabPane>
+   </left>
+   <center>
+      <TabPane prefHeight="668.0" prefWidth="888.0" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="Outil 1">
+               <content>
+                  <Canvas height="669.0" width="884.0" />
+               </content>
+            </Tab>
+         </tabs>
+         <effect>
+            <DropShadow />
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TabPane>
+   </center>
+</BorderPane>
