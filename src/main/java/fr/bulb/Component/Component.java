@@ -1,19 +1,46 @@
 package fr.bulb.Component;
 
-import java.util.List;
+import java.util.Map;
 
-public interface Component {
-    public String name = null;
-    public String category = null;
-    public int resistance = 0;
-    public List<Input> input = null;
-    public List<Output> output = null;
+abstract class Component implements ComponentInterface{
+    // Component informations
+    String name;
+    String ref;
+    String category;
+    String description;
 
-    public Input setInput();
-    public Input getInputs();
+    // Component physic information
+    Integer resistance;
+    String state;
+    private Map<String,Input> inputs;
+    private Map<String,Output> outputs;
 
-    public Output setOutput();
-    public Output getOutput();
+    public Map<String, Input> getInputs() {
+        return inputs;
+    }
 
-    public void tick();
+    public Input getInput(String index){
+        return this.inputs.get(index);
+    };
+
+    public Component setInput(String inputId, Input input){
+        this.inputs.put(inputId, input);
+        return this;
+    };
+
+    public Map<String, Output> getOutputs() {
+        return outputs;
+    }
+
+    public Output getOutput(String index) {
+        return this.outputs.get(index);
+    }
+
+    public Component setOutput(String outputId, Output output){
+        this.outputs.put(outputId, output);
+        return this;
+    };
+
+    // Component graphic management
+    Coordinate coord = null;
 }

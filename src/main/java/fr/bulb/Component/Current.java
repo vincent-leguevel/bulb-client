@@ -1,8 +1,8 @@
 package fr.bulb.Component;
 
 public class Current {
-    private int ampere = 0;
-    private int volt = 0;
+    private Integer ampere = null;
+    private Integer volt = null;
 
 
     public Current(int ampere, int volt){

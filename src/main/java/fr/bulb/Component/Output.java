@@ -2,13 +2,19 @@ package fr.bulb.Component;
 
 public class Output{
     private Input destination;
+    private Coordinate coordinate;
     private Component originComponent;
     private Current value = null;
 
-    public Output(Input destination, Component originComponent, Current current){
+    public Output(Input destination, Component originComponent, Coordinate coordinate, Current current){
+        this(originComponent, coordinate);
         this.destination = destination;
-        this.originComponent = originComponent;
         this.value = current;
+    }
+
+    public Output(Component originComponent, Coordinate coordinate){
+        this.originComponent = originComponent;
+        this.coordinate = coordinate;
     }
 
     public Current getValue() {
@@ -17,5 +23,10 @@ public class Output{
 
     public void setValue(Current value){
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinate: "+this.coordinate+", OrigineComponent: "+this.originComponent.name;
     }
 }
