@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -16,7 +22,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ConnectionController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -41,12 +47,12 @@
             </Label>
             <JFXButton text="Connexion" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets left="100.0" />
+                  <Insets left="50.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton text="Annuler" GridPane.rowIndex="3">
+            <JFXButton onAction="#annuler" text="Annuler" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets left="300.0" />
+                  <Insets left="350.0" />
                </GridPane.margin>
             </JFXButton>
             <JFXPasswordField promptText="mot de passe" GridPane.rowIndex="2">
@@ -61,28 +67,14 @@
             </JFXTextField>
             <ImageView fitHeight="84.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@fr/images/Logo.png" />
+                  <Image url="@/image/Logo.png" />
                </image></ImageView>
+            <JFXButton onAction="#inscription" text="Inscription" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="200.0" />
+               </GridPane.margin>
+            </JFXButton>
          </children>
       </GridPane>
    </center>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="Connexion">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Se connecter" />
-                  <MenuItem mnemonicParsing="false" text="S'inscrire" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quitter" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Aide">
-            <items>
-              <MenuItem mnemonicParsing="false" text="A propos" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
 </BorderPane>

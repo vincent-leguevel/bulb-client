@@ -1,16 +1,14 @@
 package fr.bulb;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
+import fr.bulb.view.Client;
 
-public class App extends Application
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-    }
-
-    public void start(Stage primaryStage) throws Exception {
+        System.out.println( "Main" );
+        new Client().createView();
 
     }
+
 }
