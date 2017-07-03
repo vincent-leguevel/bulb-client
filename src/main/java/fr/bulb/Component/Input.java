@@ -1,4 +1,4 @@
-package fr.bulb;
+package fr.bulb.Component;
 
 public class Input {
     private Output source;

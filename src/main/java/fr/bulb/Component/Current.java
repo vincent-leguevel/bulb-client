@@ -1,4 +1,4 @@
-package fr.bulb;
+package fr.bulb.Component;
 
 public class Current {
     private int ampere = 0;
@@ -28,7 +28,7 @@ public class Current {
         return this;
     }
 
-    public int getWatt(){
+    public int getPower(){
         return this.ampere * this.volt;
     }
 }

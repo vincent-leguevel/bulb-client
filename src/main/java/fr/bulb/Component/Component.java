@@ -1,4 +1,4 @@
-package fr.bulb;
+package fr.bulb.Component;
 
 import java.util.List;
 
@@ -16,5 +16,4 @@ public interface Component {
     public Output getOutput();
 
     public void tick();
-
 }
