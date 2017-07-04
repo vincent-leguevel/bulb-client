@@ -12,7 +12,7 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -51,9 +51,9 @@
    <left>
       <TabPane prefHeight="668.0" prefWidth="310.0" style="-fx-background-color: #B8BDC3;" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab closable="false" text="Composants passif">
+            <Tab fx:id="tabPassif" closable="false" text="Composants passif">
                <content>
-                  <ScrollBar orientation="VERTICAL" />
+                  <ScrollBar fx:id="sbPassif" orientation="VERTICAL" />
                </content>
             </Tab>
             <Tab closable="false" text="Composants actif">
@@ -68,6 +68,6 @@
       </TabPane>
    </left>
    <center>
-      <Canvas height="670.0" width="891.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canevas" onMouseClicked="#click" height="670.0" width="891.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
