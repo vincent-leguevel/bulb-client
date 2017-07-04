@@ -41,7 +41,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Aide">
               <items>
-                <MenuItem mnemonicParsing="false" text="A propos" />
+                <MenuItem fx:id="propos" mnemonicParsing="false" onAction="#propos" text="A propos" />
                   <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#connection" text="Connexion" />
               </items>
             </Menu>

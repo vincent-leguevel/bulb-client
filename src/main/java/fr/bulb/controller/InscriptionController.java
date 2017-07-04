@@ -3,11 +3,7 @@ package fr.bulb.controller;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-/**
- * @author Vincent Le Guevel (vincent.leguevel.sio@gmail.com)
- * @since 03/07/2017
- */
-public class InscritpionController {
+public class InscriptionController {
 
     @FXML
     javafx.scene.layout.BorderPane borderPane;
