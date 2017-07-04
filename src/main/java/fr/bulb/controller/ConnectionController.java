@@ -23,7 +23,6 @@ public class ConnectionController {
     }
     @FXML
     public void annuler() {
-
         Stage root = (Stage) borderPane.getScene().getWindow();
         root.close();
     }

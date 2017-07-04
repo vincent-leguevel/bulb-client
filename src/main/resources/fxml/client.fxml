@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Menu?>
@@ -19,11 +18,13 @@
         <menus>
           <Menu mnemonicParsing="false" text="Fichier">
             <items>
+                  <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#connection" text="Connexion" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem mnemonicParsing="false" text="Nouveau" />
                   <MenuItem mnemonicParsing="false" text="Ouvrir" />
                   <MenuItem mnemonicParsing="false" text="Enregistrer" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quitter" />
+                  <MenuItem fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edition">
@@ -42,7 +43,6 @@
             <Menu mnemonicParsing="false" text="Aide">
               <items>
                 <MenuItem fx:id="propos" mnemonicParsing="false" onAction="#propos" text="A propos" />
-                  <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#connection" text="Connexion" />
               </items>
             </Menu>
         </menus>
@@ -68,20 +68,6 @@
       </TabPane>
    </left>
    <center>
-      <TabPane prefHeight="668.0" prefWidth="888.0" BorderPane.alignment="CENTER">
-         <tabs>
-            <Tab text="Outil 1">
-               <content>
-                  <Canvas height="669.0" width="884.0" />
-               </content>
-            </Tab>
-         </tabs>
-         <effect>
-            <DropShadow />
-         </effect>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TabPane>
+      <Canvas height="670.0" width="891.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
