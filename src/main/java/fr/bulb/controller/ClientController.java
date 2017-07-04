@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.Stage;
 
 public class ClientController {
 
@@ -43,10 +42,10 @@ public class ClientController {
 
     @FXML
     public void click(MouseEvent e) {
-
         GraphicsContext gc = canevas.getGraphicsContext2D();
         gc.strokeLine(lastXMouse,lastYMouse,e.getX(),e.getY());
         lastXMouse = e.getX();
         lastYMouse = e.getY();
     }
 }
+

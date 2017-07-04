@@ -21,6 +21,7 @@ public class Inscription {
             stage.setTitle("Inscription");
             stage.getIcons().add(new Image("/image/Logo.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
