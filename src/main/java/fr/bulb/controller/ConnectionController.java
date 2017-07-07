@@ -3,6 +3,7 @@ package fr.bulb.controller;
 import fr.bulb.view.Inscription;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 public class ConnectionController {
 
     @FXML
-    javafx.scene.layout.BorderPane borderPane;
+    private BorderPane borderPane;
 
 
     @FXML

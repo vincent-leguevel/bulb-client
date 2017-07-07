@@ -1,14 +1,11 @@
 package fr.bulb.view;
 
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -24,7 +21,7 @@ public class Connection {
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/connection.fxml"));
-            Stage stage = new Stage();
+            final Stage stage = new Stage();
             stage.setTitle("Connection");
             stage.getIcons().add(new Image("/image/Logo.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -33,7 +30,19 @@ public class Connection {
             stage.show();
 
 
+            root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent me) {
+                    xOffset = me.getScreenX() - stage.getX();// - me.getSceneX();
+                    yOffset = me.getScreenY() - stage.getY();
+                }
+            });
+            root.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
+                public void handle(MouseEvent me) {
+                    stage.setX(me.getScreenX() - xOffset);
+                    stage.setY(me.getScreenY() - yOffset);
+                }
+            });
 
 
 

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.CheckMenuItem?>
@@ -18,8 +13,11 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
+<?import javafx.scene.Group?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100" minWidth="100" prefHeight="450" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -58,7 +56,7 @@
    <left>
       <TabPane prefHeight="668.0" prefWidth="297.0" style="-fx-background-color: #B8BDC3; -fx-border-color: #B8BDC3;" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab fx:id="tabPassif" closable="false" text="Composants passif">
+            <Tab closable="false" text="Composants passif">
                <content>
                   <ScrollPane prefHeight="827.0" prefWidth="398.0" />
                </content>
@@ -78,13 +76,22 @@
       </TabPane>
    </left>
    <center>
-      <ScrollPane BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="scrollPane" prefHeight="371.0" prefWidth="503.0" BorderPane.alignment="CENTER">
          <content>
-            <Canvas fx:id="canevas" height="869.0" onMouseClicked="#click" width="1104.0" />
+               <Group>
+                   <StackPane fx:id="stackPane">
+                       <Canvas fx:id="canvas" height="2000" onMouseClicked="#click" width="2000" />
+                   </StackPane>
+               </Group>
+
          </content>
       </ScrollPane>
    </center>
    <bottom>
-      <Pane prefHeight="18.0" prefWidth="1400.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="18.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton layoutX="141.0" layoutY="-6.0" onAction="#zoom" text="+" />
+            <JFXButton layoutX="222.0" layoutY="-6.0" onAction="#zoomOut" text="-" />
+         </children></Pane>
    </bottom>
 </BorderPane>

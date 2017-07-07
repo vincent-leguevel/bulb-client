@@ -1,12 +1,13 @@
 package fr.bulb.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class InscriptionController {
 
     @FXML
-    javafx.scene.layout.BorderPane borderPane;
+    private BorderPane borderPane;
 
     @FXML
     public void annuler() {
