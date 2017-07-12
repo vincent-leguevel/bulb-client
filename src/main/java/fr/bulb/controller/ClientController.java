@@ -2,11 +2,12 @@ package fr.bulb.controller;
 
 import fr.bulb.view.Connection;
 import fr.bulb.view.Propos;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -28,14 +29,17 @@ public class ClientController {
     private Canvas canvas;
 
     @FXML
-    private StackPane stackPane;
+    private Label zoomState;
+
+    @FXML
+    private ColorPicker colorPicker;
+
+    private Color color = Color.WHITE;
 
 
 
     @FXML
     private void initialize() {
-
-        stackPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.strokeLine(0,0,0,canvas.getHeight());
@@ -47,6 +51,7 @@ public class ClientController {
 
     @FXML
     public void connection() {
+        Stage root = (Stage) borderPane.getScene().getWindow();
         new Connection().createView();
     }
 
@@ -65,6 +70,7 @@ public class ClientController {
     public void click(MouseEvent e) {
         System.out.println("click");
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(color);
         gc.strokeLine(lastXMouse,lastYMouse,e.getX(),e.getY());
         lastXMouse = e.getX();
         lastYMouse = e.getY();
@@ -77,7 +83,8 @@ public class ClientController {
             canvas.setScaleY(canvas.getScaleY()+0.2D);
             canvas.setTranslateX(canvas.getTranslateX()+200D);
             canvas.setTranslateY(canvas.getTranslateY()+200D);
-
+            Integer z = Integer.parseInt(zoomState.getText())+20;
+            zoomState.setText(z+"");
         }
     }
 
@@ -88,8 +95,16 @@ public class ClientController {
             canvas.setScaleY(canvas.getScaleY()-0.2D);
             canvas.setTranslateX(canvas.getTranslateX()-200D);
             canvas.setTranslateY(canvas.getTranslateY()-200D);
+            Integer z = Integer.parseInt(zoomState.getText())-20;
+            zoomState.setText(z+"");
 
         }
+    }
+
+    @FXML
+    public void pickColor(ActionEvent e){
+        System.out.println("Color");
+        color = colorPicker.getValue();
     }
 }
 
