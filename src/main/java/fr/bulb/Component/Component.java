@@ -5,7 +5,7 @@ package fr.bulb.Component;
 import javax.imageio.ImageIO;
 import java.util.Map;
 
-abstract class Component implements ComponentInterface{
+public abstract class Component implements ComponentInterface{
     // Component informations
     String name; //need to be define in the constructor
     String ref; //need to be define in the constructor
