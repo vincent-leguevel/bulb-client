@@ -2,7 +2,7 @@ package fr.bulb.Component;
 
 public class Output{
     private Input destination;
-    private Coordinate coordinate;
+    public Coordinate coordinate;
     private Component originComponent;
     private Current value = null;
 
@@ -23,6 +23,11 @@ public class Output{
 
     public void setValue(Current value){
         this.value = value;
+    }
+
+    public Coordinate setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+        return coordinate;
     }
 
     @Override

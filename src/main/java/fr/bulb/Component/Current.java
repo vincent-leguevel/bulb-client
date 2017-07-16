@@ -31,4 +31,9 @@ public class Current {
     public int getPower(){
         return this.ampere * this.volt;
     }
+
+    @Override
+    public String toString() {
+        return "Current { ampere: "+this.ampere+"; volt: "+this.volt+"}";
+    }
 }
