@@ -4,12 +4,12 @@ public class Output{
     private Input destination;
     private Coordinate coordinate;
     private Component originComponent;
-    private Current value = null;
+    private Electricity value = null;
 
-    public Output(Input destination, Component originComponent, Coordinate coordinate, Current current){
+    public Output(Input destination, Component originComponent, Coordinate coordinate, Electricity electricity){
         this(originComponent, coordinate);
         this.destination = destination;
-        this.value = current;
+        this.value = electricity;
     }
 
     public Output(Component originComponent, Coordinate coordinate){
@@ -17,11 +17,11 @@ public class Output{
         this.coordinate = coordinate;
     }
 
-    public Current getValue() {
+    public Electricity getValue() {
         return value;
     }
 
-    public void setValue(Current value){
+    public void setValue(Electricity value){
         this.value = value;
     }
 

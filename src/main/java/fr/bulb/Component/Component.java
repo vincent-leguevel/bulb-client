@@ -7,13 +7,14 @@ import java.util.Map;
 
 abstract class Component implements ComponentInterface{
     // Component informations
-    String name; //need to be define in the constructor
-    String ref; //need to be define in the constructor
-    String category; //need to be define in the constructor
-    String description; //need to be define in the constructor
+    String name;
+    String ref;
+    String category;
+    String description;
 
     // Component physic information
-    Integer resistance;
+    int resistance;
+    int ampMax;
     String state;
     private Map<String,Input> inputs;
     private Map<String,Output> outputs;
