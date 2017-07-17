@@ -146,10 +146,6 @@ public abstract class Component implements ComponentInterface{
                 && coordinate.getY() <= this.hitbox.get("yMax");
     }
 
-    public boolean isClicked(Coordinate coordinate){
-        return this.isInHitbox(coordinate);
-    }
-
     public Component initGui(GraphicsContext ctx) {
         this.draw(ctx);
         return this;

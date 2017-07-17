@@ -2,8 +2,10 @@ package fr.bulb;
 
 import fr.bulb.Component.AlternatingCurrent;
 import fr.bulb.Component.Coordinate;
-import fr.bulb.defaultPack.Button;
+import fr.bulb.Component.InterractiveComponent;
+import fr.bulb.defaultPack.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -40,10 +42,9 @@ public class App extends Application
 
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                for (Button btn :
+                for (InterractiveComponent btn :
                         btnArray) {
-                    System.out.println(btn.isInHitbox(new Coordinate((int)event.getX(), (int)event.getY())));
-                    if(btn.isInHitbox(new Coordinate((int) event.getX(), (int)event.getY()))){
+                    if(btn.isClicked(new Coordinate((int) event.getX(), (int)event.getY()))){
                         btn.onClick(gc);
                         System.out.println("HAS BEEN CLICKED");
                     }else{
@@ -57,21 +58,27 @@ public class App extends Application
         gc.setLineWidth(2);
 
         final Button btn = new Button(new Coordinate(50, 200, Coordinate.Orientation.UP), gc);
-        final Button btn2 = new Button(new Coordinate(70, 200, Coordinate.Orientation.LEFT), gc);
+        final Button btn2 = new Button(new Coordinate(70, 200, Coordinate.Orientation.RIGHT), gc);
 
         btn2.getOutput("01").setValue(new AlternatingCurrent(10,10));
 
         btn.getInput("01").setSource(btn2.getOutput("01"));
 
-        new Timer().scheduleAtFixedRate(new TimerTask(){
-            @Override
-            public void run(){
-                btn.tick(gc);
-                System.out.println(btn.getOutput("01").getValue());
+        Timer timer = new java.util.Timer();
+
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        btn.tick(gc);
+                        System.out.println(btn.getOutput("01").getValue());
+                    }
+                });
             }
-        },0,50);
+        }, 0, 50);
 
         btnArray.add(btn);
+        btnArray.add(btn2);
 
         root.getChildren().add(canvas);
 

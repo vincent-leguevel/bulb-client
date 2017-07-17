@@ -3,7 +3,7 @@ package fr.bulb.defaultPack;
 import fr.bulb.Component.*;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Button extends Component implements InterractiveComponent {
+public class Button extends InterractiveComponent {
 
     public enum State{
         OPEN("OPEN"),
