@@ -1,11 +1,9 @@
 package fr.bulb;
 
+import fr.bulb.Component.AlternatingCurrent;
 import fr.bulb.Component.Coordinate;
-import fr.bulb.Component.Current;
-import fr.bulb.Component.Output;
 import fr.bulb.defaultPack.Button;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -14,10 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,7 +59,7 @@ public class App extends Application
         final Button btn = new Button(new Coordinate(50, 200, Coordinate.Orientation.UP), gc);
         final Button btn2 = new Button(new Coordinate(70, 200, Coordinate.Orientation.LEFT), gc);
 
-        btn2.getOutput("01").setValue(new Current(10,10));
+        btn2.getOutput("01").setValue(new AlternatingCurrent(10,10));
 
         btn.getInput("01").setSource(btn2.getOutput("01"));
 

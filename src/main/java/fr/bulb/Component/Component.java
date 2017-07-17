@@ -17,7 +17,7 @@ public abstract class Component implements ComponentInterface{
 
     // Component physic information
     protected int resistance;
-    protected int ampMax;
+    protected double ampMax;
     protected String state;
     protected HashMap<String,Input> inputs = new HashMap<String, Input>();
     protected HashMap<String,Output> outputs = new HashMap<String, Output>();
@@ -29,13 +29,14 @@ public abstract class Component implements ComponentInterface{
     protected int height;
     protected ImageIO icon; //need to be define in the constructor
 
-    public Component(String name, String ref, String category, String description, int ampMax, int resistance, Coordinate coordinate, int width, int height){
+    public Component(String name, String ref, String category, String description, double ampMax, int resistance, Coordinate coordinate, int width, int height){
         this.name = name;
         this.ref = ref;
         this.category = category;
         this.description = description;
 
         this.resistance = resistance;
+        this.ampMax = ampMax;
 
         this.coord = coordinate;
 

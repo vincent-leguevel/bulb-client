@@ -17,7 +17,7 @@ public class Lamp extends Component {
     }
 
     public Lamp(Coordinate coordinate){
-        super("Lamp", "Lam-01", "Passive", "Standard lamp", null, coordinate, 100, 20);
+        super("Lamp", "Lam-01", "Passive", "Standard lamp", 0.04, 0, coordinate, 100, 20);
 
         this.state = Button.State.OPEN.value;
 
@@ -28,6 +28,14 @@ public class Lamp extends Component {
     public Lamp(Coordinate coordinate, GraphicsContext ctx){
         this(coordinate);
         initGui(ctx);
+    }
+
+    public double getActivePower() {
+        return 0;
+    }
+
+    public double getReactivePower() {
+        return 0;
     }
 
     public void setInput() {
@@ -75,7 +83,7 @@ public class Lamp extends Component {
     }
 
     public Component tick(GraphicsContext ctx) {
-        System.out.println("tick");
+        /*System.out.println("tick");
         if (this.state.equals(Button.State.OPEN.value)){
             //when open transmit null current
             this.getOutput("01").setValue(new Current(0,0));
@@ -83,7 +91,7 @@ public class Lamp extends Component {
             //when close transmit input current
             this.getOutput("01").setValue(this.getInput("01").getSource().getValue());
         }
-        draw(ctx);
+        draw(ctx);*/
         return this;
     }
 
