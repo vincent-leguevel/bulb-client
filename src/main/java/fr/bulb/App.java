@@ -43,13 +43,19 @@ public class App extends Application
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
 
-        final Button btn = new Button(new Coordinate(50, 200, Coordinate.Orientation.UP), gc);
-        final Lamp lp = new Lamp(new Coordinate(70, 100, Coordinate.Orientation.LEFT), gc);
+        final Button btn = new Button(new Coordinate(40, 200, Coordinate.Orientation.UP), gc);
+        final Lamp lp = new Lamp(new Coordinate(70, 100, Coordinate.Orientation.UP), gc);
+        final Lamp lp1 = new Lamp(new Coordinate(120, 100, Coordinate.Orientation.DOWN), gc);
+        final Lamp lp2 = new Lamp(new Coordinate(50, 0, Coordinate.Orientation.LEFT), gc);
+        final Lamp lp3 = new Lamp(new Coordinate(50, 50, Coordinate.Orientation.RIGHT), gc);
 
         Output generator = new Output(null, null, null, new AlternatingCurrent(230, 50));
 
         btn.getInput("01").setSource(generator);
         lp.getInput("01").setSource(btn.getOutput("01"));
+        lp1.getInput("01").setSource(btn.getOutput("01"));
+        lp2.getInput("01").setSource(btn.getOutput("01"));
+        lp3.getInput("01").setSource(btn.getOutput("01"));
 
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -70,6 +76,9 @@ public class App extends Application
                     public void run() {
                         btn.tick(gc);
                         lp.tick(gc);
+                        lp1.tick(gc);
+                        lp2.tick(gc);
+                        lp3.tick(gc);
                     }
                 });
             }

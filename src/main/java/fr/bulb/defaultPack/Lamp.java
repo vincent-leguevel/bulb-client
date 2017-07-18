@@ -102,6 +102,8 @@ public class Lamp extends Component {
 
         System.out.println(this.coord+" width: "+this.width+"; height: "+this.height+"; state:" + this.state);
 
+        //ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
+
         int circleX = 0;
         int circleY = 0;
 
@@ -109,8 +111,8 @@ public class Lamp extends Component {
             case RIGHT:
             case LEFT:
                 int y = this.coord.getY() + this.height / 2 ;
-                ctx.clearRect(this.coord.getX(), this.coord.getY()-1, this.width, this.height+2);
-                ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.width, this.height);
+                ctx.clearRect(this.coord.getX(), this.coord.getY(), this.width, this.height);
+                //ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.width, this.height);
                 ctx.strokeLine(this.coord.getX(),y,this.coord.getX() + 25, y);
                 ctx.strokeLine(this.coord.getX() + 75,y, this.coord.getX() + this.width, y);
                 circleX = this.coord.getX() + 25;
@@ -135,10 +137,18 @@ public class Lamp extends Component {
                 break;
             case UP:
             case DOWN:
-                int x = this.coord.getX() + this.height / 2;
-                ctx.clearRect(this.coord.getX()-1, this.coord.getY()- this.width, this.height+2, this.width);
-                ctx.strokeLine(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getX() + this.height / 2, this.coord.getY() - 30);
-                ctx.strokeLine(x, this.coord.getY() - 70, x, this.coord.getY() - this.width);
+                int x  = this.coord.getX() + this.height / 2 ;
+                ctx.clearRect(this.coord.getX(), this.coord.getY(), this.height, this.width);
+                //ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.height, this.width);
+                ctx.strokeLine(x,this.coord.getY(),x, this.coord.getY() + 25);
+                ctx.strokeLine(x,this.coord.getY() + 75, x, this.coord.getY() + this.width);
+                circleX = this.coord.getX();
+                circleY = this.coord.getY() + this.width / 4;
+                if(this.state.equals(State.POWERED.value)){
+                    ctx.setFill(Color.YELLOW);
+                    ctx.fillOval(circleX, circleY, 50, 50 );
+                    ctx.setFill(Color.BLACK);
+                }
                 break;
         }
 
