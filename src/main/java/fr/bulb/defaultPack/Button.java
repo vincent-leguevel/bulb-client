@@ -3,7 +3,7 @@ package fr.bulb.defaultPack;
 import fr.bulb.Component.*;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Button extends Component implements InterractiveComponent {
+public class Button extends InterractiveComponent {
 
     public enum State{
         OPEN("OPEN"),
@@ -17,7 +17,7 @@ public class Button extends Component implements InterractiveComponent {
     }
 
     public Button(Coordinate coordinate){
-        super("Button", "But-01", "Interactif", "Interactive button", null, coordinate, 100, 20);
+        super("Button", "But-01", "Interactif", "Interactive button", 0, 0, coordinate, 100, 20);
 
         this.state = State.OPEN.value;
 
@@ -28,6 +28,18 @@ public class Button extends Component implements InterractiveComponent {
     public Button(Coordinate coordinate, GraphicsContext ctx){
         this(coordinate);
         initGui(ctx);
+    }
+
+    public double getActivePower() {
+        return 0;
+    }
+
+    public double getReactivePower() {
+        return 0;
+    }
+
+    public double getCurrent() {
+        return 0;
     }
 
     public void setInput() {
@@ -75,10 +87,9 @@ public class Button extends Component implements InterractiveComponent {
     }
 
     public Component tick(GraphicsContext ctx) {
-        System.out.println("tick");
         if (this.state.equals(State.OPEN.value)){
             //when open transmit null current
-            this.getOutput("01").setValue(new Current(0,0));
+            this.getOutput("01").setValue(null);
         }else{
             //when close transmit input current
             this.getOutput("01").setValue(this.getInput("01").getSource().getValue());

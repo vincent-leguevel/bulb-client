@@ -16,7 +16,8 @@ public abstract class Component implements ComponentInterface{
     protected String description;
 
     // Component physic information
-    protected Integer resistance;
+    protected int resistance;
+    protected double ampMax;
     protected String state;
     protected HashMap<String,Input> inputs = new HashMap<String, Input>();
     protected HashMap<String,Output> outputs = new HashMap<String, Output>();
@@ -28,13 +29,14 @@ public abstract class Component implements ComponentInterface{
     protected int height;
     protected ImageIO icon; //need to be define in the constructor
 
-    public Component(String name, String ref, String category, String description, Integer resistance, Coordinate coordinate, int width, int height){
+    public Component(String name, String ref, String category, String description, double ampMax, int resistance, Coordinate coordinate, int width, int height){
         this.name = name;
         this.ref = ref;
         this.category = category;
         this.description = description;
 
         this.resistance = resistance;
+        this.ampMax = ampMax;
 
         this.coord = coordinate;
 
@@ -142,10 +144,6 @@ public abstract class Component implements ComponentInterface{
                 && coordinate.getX() <= this.hitbox.get("xMax")
                 && coordinate.getY() >= this.hitbox.get("y")
                 && coordinate.getY() <= this.hitbox.get("yMax");
-    }
-
-    public boolean isClicked(Coordinate coordinate){
-        return this.isInHitbox(coordinate);
     }
 
     public Component initGui(GraphicsContext ctx) {

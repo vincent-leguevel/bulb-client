@@ -2,7 +2,7 @@ package fr.bulb.Component;
 
 public class Input {
     private Output source = null;
-    private Coordinate coordinate;
+    public Coordinate coordinate;
 
     public Input(Coordinate coordinate){
         this.coordinate = coordinate;
