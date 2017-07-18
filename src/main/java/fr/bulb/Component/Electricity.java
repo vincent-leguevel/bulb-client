@@ -1,6 +1,6 @@
 package fr.bulb.Component;
 
-abstract class Electricity {
+public abstract class Electricity {
     protected Integer volt = null;
 
 

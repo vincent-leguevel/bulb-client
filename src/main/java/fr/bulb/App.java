@@ -2,8 +2,6 @@ package fr.bulb;
 
 import fr.bulb.Component.AlternatingCurrent;
 import fr.bulb.Component.Coordinate;
-import fr.bulb.Component.InterractiveComponent;
-import fr.bulb.Component.Output;
 import fr.bulb.defaultPack.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,7 +14,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,7 +33,7 @@ public class App extends Application
         primaryStage.setTitle("Hello World!");
 
         StackPane root = new StackPane();
-        Canvas canvas = new Canvas(300, 250);
+        Canvas canvas = new Canvas(300, 300);
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -49,9 +46,9 @@ public class App extends Application
         final Lamp lp2 = new Lamp(new Coordinate(50, 0, Coordinate.Orientation.LEFT), gc);
         final Lamp lp3 = new Lamp(new Coordinate(50, 50, Coordinate.Orientation.RIGHT), gc);
 
-        Output generator = new Output(null, null, null, new AlternatingCurrent(230, 50));
+        EntryCurrent generator = new EntryCurrent( new Coordinate(0,0, Coordinate.Orientation.UP), new AlternatingCurrent(230, 50));
 
-        btn.getInput("01").setSource(generator);
+        btn.getInput("01").setSource(generator.getOutput("01"));
         lp.getInput("01").setSource(btn.getOutput("01"));
         lp1.getInput("01").setSource(btn.getOutput("01"));
         lp2.getInput("01").setSource(btn.getOutput("01"));

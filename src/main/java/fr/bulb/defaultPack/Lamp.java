@@ -153,6 +153,11 @@ public class Lamp extends Component {
         }
 
         ctx.strokeOval(circleX, circleY , 50, 50 );
+
+        ctx.setStroke(Color.RED);
+        ctx.strokeOval(this.getInput("01").coordinate.getX()-5, this.getInput("01").coordinate.getY()-5, 10, 10);
+        ctx.setStroke(Color.BLACK);
+        ctx.strokeOval(this.getOutput("01").coordinate.getX()-5, this.getOutput("01").coordinate.getY()-5, 10, 10);
         return this;
     }
 }
