@@ -2,6 +2,7 @@ package fr.bulb.defaultPack;
 
 import fr.bulb.Component.*;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Lamp extends Component {
 
@@ -17,7 +18,7 @@ public class Lamp extends Component {
     }
 
     public Lamp(Coordinate coordinate){
-        super("Lamp", "Lam-01", "Passive", "Standard lamp", 0.04, 0, coordinate, 100, 20);
+        super("Lamp", "Lam-01", "Passive", "Standard lamp", 0.04, 0, coordinate, 100, 50);
 
         this.state = Button.State.OPEN.value;
 
@@ -42,16 +43,16 @@ public class Lamp extends Component {
         Coordinate inputCoords = null;
         switch (this.coord.getOrientation()){
             case UP:
-                inputCoords = new Coordinate(this.coord.getX() + this.height, this.coord.getY(), this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
                 break;
             case DOWN:
-                inputCoords = new Coordinate(this.coord.getX(), this.coord.getY() - this.width, this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
                 break;
             case LEFT:
-                inputCoords = new Coordinate(this.coord.getX() + this.width, this.coord.getY() + this.height, this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX() + this.width , this.coord.getY() + this.height / 2, this.coord.getOrientation());
                 break;
             case RIGHT:
-                inputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height, this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height / 2, this.coord.getOrientation());
                 break;
             default:
                 throw new RuntimeException("INVALID ORIENTATION");
@@ -64,16 +65,16 @@ public class Lamp extends Component {
         Coordinate outputCoords = null;
         switch (this.coord.getOrientation()){
             case UP:
-                outputCoords = new Coordinate(this.coord.getX() + this.height, this.coord.getY() - this.width, this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
                 break;
             case DOWN:
-                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY(), this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
                 break;
             case LEFT:
-                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height, this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height / 2, this.coord.getOrientation());
                 break;
             case RIGHT:
-                outputCoords = new Coordinate(this.coord.getX() + this.width, this.coord.getY() + this.height, this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX() + this.width, this.coord.getY() + this.height / 2, this.coord.getOrientation());
                 break;
             default:
                 throw new RuntimeException("INVALID ORIENTATION");
@@ -97,32 +98,28 @@ public class Lamp extends Component {
 
     public Component draw(GraphicsContext ctx) {
 
+        System.out.println(this.coord+" width: "+this.width+"; height: "+this.height);
         switch (this.coord.getOrientation()){
             case RIGHT:
             case LEFT:
+                int y = this.coord.getY() + this.height / 2 ;
                 ctx.clearRect(this.coord.getX(), this.coord.getY()-1, this.width, this.height+2);
-                ctx.strokeLine(this.coord.getX(),this.coord.getY() + this.height,this.coord.getX() + 30, this.coord.getY() + this.height);
-                ctx.strokeLine(this.coord.getX() + 60,this.coord.getY() + this.height, this.coord.getX() + this.width, this.coord.getY() + this.height);
-                if(this.coord.getOrientation() == Coordinate.Orientation.RIGHT){
-                    ctx.strokeLine(this.coord.getX() + 30,this.coord.getY() + this.height, this.coord.getX() + 60, this.state.equals(Button.State.OPEN.value)? this.coord.getY(): this.coord.getY()+this.height-2);
-                }else{
-                    ctx.strokeLine(this.coord.getX() + 60, this.coord.getY()+ this.height, this.coord.getX() + 30, this.state.equals(Button.State.OPEN.value)? this.coord.getY(): this.coord.getY()+this.height-2);
+                ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.coord.getX() + this.width, this.coord.getY() + this.height);
+                ctx.strokeLine(this.coord.getX(),y,this.coord.getX() + 30, y);
+                ctx.strokeLine(this.coord.getX() + 70,y, this.coord.getX() + this.width, y);
+                if(this.state.equals(State.POWERED.value)){
+                    ctx.setFill(Color.YELLOW);
+                    ctx.fillOval(this.coord.getX() + 30, this.coord.getY() + this.height, 40, 40 );
+                    ctx.setFill(Color.BLACK);
                 }
+                ctx.strokeOval(this.coord.getX() + 30, this.coord.getY() - this.height , 40, 40 );
                 break;
             case UP:
             case DOWN:
+                int x = this.coord.getX() + this.height / 2;
                 ctx.clearRect(this.coord.getX()-1, this.coord.getY()- this.width, this.height+2, this.width);
-                boolean isUp = this.coord.getOrientation() == Coordinate.Orientation.UP;
-                int x = isUp ? this.coord.getX() + this.height : this.coord.getX();
-                int openValue = 0;
-                if(this.state.equals(Button.State.OPEN.value)){
-                    openValue = isUp? x - this.height : x + this.height;
-                }else{
-                    openValue = isUp? x - 1 : x + 1;
-                }
-                ctx.strokeLine(x, this.coord.getY(), x, this.coord.getY() - 30);
-                ctx.strokeLine(x, this.coord.getY() - 60, x, this.coord.getY() - this.width);
-                ctx.strokeLine(x, this.coord.getY() - 30, openValue , this.coord.getY() - 60);
+                ctx.strokeLine(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getX() + this.height / 2, this.coord.getY() - 30);
+                ctx.strokeLine(x, this.coord.getY() - 70, x, this.coord.getY() - this.width);
                 break;
         }
         return this;

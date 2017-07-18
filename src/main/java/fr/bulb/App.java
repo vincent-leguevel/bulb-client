@@ -33,14 +33,13 @@ public class App extends Application
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Hello World!");
-        final ArrayList<Button> btnArray = new ArrayList<Button>();
 
         StackPane root = new StackPane();
         Canvas canvas = new Canvas(300, 250);
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        /*canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 for (InterractiveComponent btn :
                         btnArray) {
@@ -52,21 +51,17 @@ public class App extends Application
                     }
                 }
             }
-        });
+        });*/
 
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
 
-        final Button btn = new Button(new Coordinate(50, 200, Coordinate.Orientation.UP), gc);
-        final Button btn2 = new Button(new Coordinate(70, 200, Coordinate.Orientation.RIGHT), gc);
-
-        btn2.getOutput("01").setValue(new AlternatingCurrent(10,10));
-
-        btn.getInput("01").setSource(btn2.getOutput("01"));
+        //final Lamp btn = new Lamp(new Coordinate(50, 200, Coordinate.Orientation.UP), gc);
+        final Lamp btn2 = new Lamp(new Coordinate(70, 100, Coordinate.Orientation.RIGHT), gc);
 
         Timer timer = new java.util.Timer();
 
-        timer.schedule(new TimerTask() {
+        /*timer.schedule(new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
@@ -75,10 +70,7 @@ public class App extends Application
                     }
                 });
             }
-        }, 0, 50);
-
-        btnArray.add(btn);
-        btnArray.add(btn2);
+        }, 0, 50);*/
 
         root.getChildren().add(canvas);
 
