@@ -10,9 +10,9 @@ public class Lamp extends Component {
         POWERED("POWERED"),
         UNPOWERED("UNPOWERED");
 
-        String value;
+        public String value;
 
-        State(String value){
+        State(String value) {
             this.value = value;
         }
     }
@@ -20,7 +20,7 @@ public class Lamp extends Component {
     public Lamp(Coordinate coordinate){
         super("Lamp", "Lam-01", "Passive", "Standard lamp", 0.04, 0, coordinate, 100, 50);
 
-        this.state = Button.State.OPEN.value;
+        this.state = State.UNPOWERED.value;
 
         this.setInput();
         this.setOutput();
@@ -36,6 +36,10 @@ public class Lamp extends Component {
     }
 
     public double getReactivePower() {
+        return 0;
+    }
+
+    public double getCurrent() {
         return 0;
     }
 
@@ -84,35 +88,50 @@ public class Lamp extends Component {
     }
 
     public Component tick(GraphicsContext ctx) {
-        /*System.out.println("tick");
-        if (this.state.equals(Button.State.OPEN.value)){
-            //when open transmit null current
-            this.getOutput("01").setValue(new Current(0,0));
+        System.out.println("tick");
+        if(this.getInput("01").getSource().getValue() != null ){
+            this.state = State.POWERED.value;
         }else{
-            //when close transmit input current
-            this.getOutput("01").setValue(this.getInput("01").getSource().getValue());
+            this.state = State.UNPOWERED.value;
         }
-        draw(ctx);*/
+        draw(ctx);
         return this;
     }
 
     public Component draw(GraphicsContext ctx) {
 
-        System.out.println(this.coord+" width: "+this.width+"; height: "+this.height);
+        System.out.println(this.coord+" width: "+this.width+"; height: "+this.height+"; state:" + this.state);
+
+        int circleX = 0;
+        int circleY = 0;
+
         switch (this.coord.getOrientation()){
             case RIGHT:
             case LEFT:
                 int y = this.coord.getY() + this.height / 2 ;
                 ctx.clearRect(this.coord.getX(), this.coord.getY()-1, this.width, this.height+2);
-                ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.coord.getX() + this.width, this.coord.getY() + this.height);
-                ctx.strokeLine(this.coord.getX(),y,this.coord.getX() + 30, y);
-                ctx.strokeLine(this.coord.getX() + 70,y, this.coord.getX() + this.width, y);
+                ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.width, this.height);
+                ctx.strokeLine(this.coord.getX(),y,this.coord.getX() + 25, y);
+                ctx.strokeLine(this.coord.getX() + 75,y, this.coord.getX() + this.width, y);
+                circleX = this.coord.getX() + 25;
+                circleY = this.coord.getY();
                 if(this.state.equals(State.POWERED.value)){
                     ctx.setFill(Color.YELLOW);
-                    ctx.fillOval(this.coord.getX() + 30, this.coord.getY() + this.height, 40, 40 );
+                    ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
-                ctx.strokeOval(this.coord.getX() + 30, this.coord.getY() - this.height , 40, 40 );
+                /*//first diagonal TODO if I have the MOJO
+                int circleCenterX = circleX + 25;
+                int circleCenterY = circleX + 25;
+                //origin
+                double x10 = circleCenterX + 25 * Math.cos((3*Math.PI)/4);
+                double y10 = circleCenterY + 25 * Math.sin((3*Math.PI)/4);
+
+                //destination
+                double x11 = circleCenterX + 25 * Math.cos((-Math.PI)/4);
+                double y11 = circleCenterY + 25 * Math.sin((-Math.PI)/4);
+
+                ctx.strokeLine(x10, y10, x11, y11);*/
                 break;
             case UP:
             case DOWN:
@@ -122,6 +141,8 @@ public class Lamp extends Component {
                 ctx.strokeLine(x, this.coord.getY() - 70, x, this.coord.getY() - this.width);
                 break;
         }
+
+        ctx.strokeOval(circleX, circleY , 50, 50 );
         return this;
     }
 }

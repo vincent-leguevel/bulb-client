@@ -38,6 +38,10 @@ public class Button extends InterractiveComponent {
         return 0;
     }
 
+    public double getCurrent() {
+        return 0;
+    }
+
     public void setInput() {
         Coordinate inputCoords = null;
         switch (this.coord.getOrientation()){
@@ -83,7 +87,6 @@ public class Button extends InterractiveComponent {
     }
 
     public Component tick(GraphicsContext ctx) {
-        System.out.println("tick");
         if (this.state.equals(State.OPEN.value)){
             //when open transmit null current
             this.getOutput("01").setValue(null);
