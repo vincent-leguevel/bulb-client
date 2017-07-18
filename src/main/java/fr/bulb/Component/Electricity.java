@@ -16,4 +16,9 @@ abstract class Electricity {
         this.volt = value;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "{volt: "+ this.volt+"}";
+    }
 }
