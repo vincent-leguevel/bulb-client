@@ -42,6 +42,7 @@ public class Button extends InterractiveComponent {
         return 0;
     }
 
+    @Override
     public void setInput() {
         Coordinate inputCoords = null;
         switch (this.coord.getOrientation()){
@@ -64,6 +65,7 @@ public class Button extends InterractiveComponent {
         this.inputs.put("01", new Input(inputCoords));
     }
 
+    @Override
     public void setOutput() {
         Coordinate outputCoords = null;
         switch (this.coord.getOrientation()){

@@ -27,30 +27,9 @@ public class EntryCurrent extends Component {
         return 0;
     }
 
+    @Override
     public void setInput() {
         // THERE IS NO INPUT
-    }
-
-    public void setOutput() {
-        Coordinate outputCoords = null;
-        switch (this.coord.getOrientation()){
-            case UP:
-                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
-                break;
-            case DOWN:
-                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
-                break;
-            case LEFT:
-                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height / 2, this.coord.getOrientation());
-                break;
-            case RIGHT:
-                outputCoords = new Coordinate(this.coord.getX() + this.width, this.coord.getY() + this.height / 2, this.coord.getOrientation());
-                break;
-            default:
-                throw new RuntimeException("INVALID ORIENTATION");
-        }
-
-        this.outputs.put("01", new Output(this, outputCoords));
     }
 
     public Component tick(GraphicsContext ctx) {
@@ -58,7 +37,16 @@ public class EntryCurrent extends Component {
     }
 
     public Component draw(GraphicsContext ctx) {
-        //TODO
+        switch (this.coord.getOrientation()){
+            case UP:
+                break;
+            case RIGHT:
+                break;
+            case DOWN:
+                break;
+            case LEFT:
+                break;
+        }
         return null;
     }
 }

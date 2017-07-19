@@ -108,6 +108,50 @@ public abstract class Component implements ComponentInterface{
         return this;
     }
 
+    public void setInput() {
+        Coordinate inputCoords = null;
+        switch (this.coord.getOrientation()){
+            case UP:
+                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
+                break;
+            case DOWN:
+                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
+                break;
+            case LEFT:
+                inputCoords = new Coordinate(this.coord.getX() + this.width , this.coord.getY() + this.height / 2, this.coord.getOrientation());
+                break;
+            case RIGHT:
+                inputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height / 2, this.coord.getOrientation());
+                break;
+            default:
+                throw new RuntimeException("INVALID ORIENTATION");
+        }
+
+        this.inputs.put("01", new Input(inputCoords));
+    }
+
+    public void setOutput() {
+        Coordinate outputCoords = null;
+        switch (this.coord.getOrientation()){
+            case UP:
+                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
+                break;
+            case DOWN:
+                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
+                break;
+            case LEFT:
+                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height / 2, this.coord.getOrientation());
+                break;
+            case RIGHT:
+                outputCoords = new Coordinate(this.coord.getX() + this.width, this.coord.getY() + this.height / 2, this.coord.getOrientation());
+                break;
+            default:
+                throw new RuntimeException("INVALID ORIENTATION");
+        }
+
+        this.outputs.put("01", new Output(this, outputCoords));
+    }
+
     private void setHitBox() throws RuntimeException{
         int x = 0;
         int y = 0;
