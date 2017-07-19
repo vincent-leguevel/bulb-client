@@ -33,22 +33,24 @@ public class App extends Application
         primaryStage.setTitle("Hello World!");
 
         StackPane root = new StackPane();
-        Canvas canvas = new Canvas(300, 300);
+        Canvas canvas = new Canvas(300, 250);
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
 
-        final Button btn = new Button(new Coordinate(40, 200, Coordinate.Orientation.UP), gc);
-        final Lamp lp = new Lamp(new Coordinate(70, 100, Coordinate.Orientation.UP), gc);
-        final Lamp lp1 = new Lamp(new Coordinate(120, 100, Coordinate.Orientation.DOWN), gc);
-        final Lamp lp2 = new Lamp(new Coordinate(50, 0, Coordinate.Orientation.LEFT), gc);
-        final Lamp lp3 = new Lamp(new Coordinate(50, 50, Coordinate.Orientation.RIGHT), gc);
 
-        EntryCurrent generator = new EntryCurrent( new Coordinate(0,0, Coordinate.Orientation.UP), new AlternatingCurrent(230, 50));
+        ExitCurrent generator = new ExitCurrent( new Coordinate(100,200, Coordinate.Orientation.RIGHT), gc);
+//        EntryCurrent generator2 = new EntryCurrent( new Coordinate(200,200, Coordinate.Orientation.DOWN), new AlternatingCurrent(230, 50), gc);
 
-        btn.getInput("01").setSource(generator.getOutput("01"));
+//        final Button btn = new Button(new Coordinate(40, 100, Coordinate.Orientation.RIGHT), gc);
+        //final Lamp lp = new Lamp(new Coordinate(70, 100, Coordinate.Orientation.UP), gc);
+//        final Lamp lp1 = new Lamp(new Coordinate(120, 100, Coordinate.Orientation.DOWN), gc);
+//        final Lamp lp2 = new Lamp(new Coordinate(50, 0, Coordinate.Orientation.LEFT), gc);
+//        final Lamp lp3 = new Lamp(new Coordinate(50, 50, Coordinate.Orientation.RIGHT), gc);
+
+        /*btn.getInput("01").setSource(generator.getOutput("01"));
         lp.getInput("01").setSource(btn.getOutput("01"));
         lp1.getInput("01").setSource(btn.getOutput("01"));
         lp2.getInput("01").setSource(btn.getOutput("01"));
@@ -79,7 +81,7 @@ public class App extends Application
                     }
                 });
             }
-        }, 0, 50);
+        }, 0, 50);*/
 
         root.getChildren().add(canvas);
 

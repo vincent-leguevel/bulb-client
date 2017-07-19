@@ -56,7 +56,7 @@ public class Lamp extends Component {
 
     public Component draw(GraphicsContext ctx) {
 
-        System.out.println(this.coord+" width: "+this.width+"; height: "+this.height+"; state:" + this.state);
+        //System.out.println(this.coord+" width: "+this.width+"; height: "+this.height+"; state:" + this.state);
 
         //ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
 
@@ -78,6 +78,7 @@ public class Lamp extends Component {
                     ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
+                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 /*//first diagonal TODO if I have the MOJO
                 int circleCenterX = circleX + 25;
                 int circleCenterY = circleX + 25;
@@ -105,6 +106,7 @@ public class Lamp extends Component {
                     ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
+                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
                 break;
         }
 

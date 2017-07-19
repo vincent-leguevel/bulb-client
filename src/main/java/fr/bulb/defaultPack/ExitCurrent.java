@@ -1,22 +1,19 @@
 package fr.bulb.defaultPack;
 
-import fr.bulb.Component.*;
+
+import fr.bulb.Component.Component;
+import fr.bulb.Component.Coordinate;
 import javafx.scene.canvas.GraphicsContext;
 
-public class EntryCurrent extends Component {
+public class ExitCurrent extends Component{
+    public ExitCurrent(Coordinate coordinate) {
+        super("ExitCurrent", "Gro-01", "Passive", "Standard ExitCurrent", 0, 0, coordinate, 40, 30);
 
-    private Electricity electricity;
-
-    public EntryCurrent(Coordinate coordinate, Electricity electricity ) {
-        super("EntryCurrent", "Gen-01", "Passive", "Standard EntryCurrent", 0, 0, coordinate, 40, 30);
-        this.electricity = electricity;
-
-        this.setOutput();
-        this.getOutput("01").setValue(electricity);
+        this.setInput();
     }
 
-    public EntryCurrent(Coordinate coordinate, Electricity electricity, GraphicsContext ctx){
-        this(coordinate, electricity);
+    public ExitCurrent(Coordinate coordinate, GraphicsContext ctx){
+        this(coordinate);
         initGui(ctx);
     }
 
@@ -33,15 +30,12 @@ public class EntryCurrent extends Component {
     }
 
     @Override
-    public void setInput() {
+    public void setOutput() {
         // THERE IS NO INPUT
     }
 
     public Component tick(GraphicsContext ctx) {
         draw(ctx);
-        if(this.getOutput("01").getValue() == null){
-            this.getOutput("01").setValue(this.electricity);
-        }
         return this;
     }
 
@@ -50,16 +44,16 @@ public class EntryCurrent extends Component {
         switch (this.coord.getOrientation()){
             case UP:
             case DOWN:
-                int isUp = this.coord.getOrientation() == Coordinate.Orientation.UP ? 1 : 0;
+                int isUp = this.coord.getOrientation() == Coordinate.Orientation.UP ? 0 : 1;
                 ctx.strokeLine(this.coord.getX(), this.coord.getY() + this.width * isUp, this.coord.getX() + this.height, this.coord.getY() + this.width * isUp);
-                ctx.strokeLine(this.coord.getX(), this.coord.getY() + this.width * isUp, this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2 );
-                ctx.strokeLine(this.coord.getX() + this.height, this.coord.getY() + this.width * isUp , this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2);
-                ctx.strokeLine(this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2 , this.coord.getX() + this.height / 2, this.coord.getY() + (this.width * (1 - isUp)));
+                ctx.strokeLine(this.coord.getX(), this.coord.getY() + this.width * isUp, this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2);
+                ctx.strokeLine(this.coord.getX() + this.height, this.coord.getY() + this.width * isUp, this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2);
+                ctx.strokeLine(this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2, this.coord.getX() + this.height / 2, this.coord.getY() + this.width * (1 - isUp));
                 ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
                 break;
             case RIGHT:
             case LEFT:
-                int isLeft = this.coord.getOrientation() == Coordinate.Orientation.LEFT ? 1 : 0;
+                int isLeft = this.coord.getOrientation() == Coordinate.Orientation.LEFT ? 0 : 1;
                 ctx.strokeLine(this.coord.getX() + this.width * isLeft, this.coord.getY(), this.coord.getX()  + this.width * isLeft, this.coord.getY() + this.height);
                 ctx.strokeLine(this.coord.getX() + this.width * isLeft, this.coord.getY(), this.coord.getX() + this.width / 2, this.coord.getY() + this.height / 2);
                 ctx.strokeLine(this.coord.getX() + this.width * isLeft, this.coord.getY() + this.height, this.coord.getX() + this.width / 2, this.coord.getY() + this.height / 2);
@@ -67,7 +61,7 @@ public class EntryCurrent extends Component {
                 ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 break;
         }
-        ctx.strokeOval(this.getOutput("01").coordinate.getX()-5, this.getOutput("01").coordinate.getY()-5, 10, 10);
+        ctx.strokeOval(this.getInput("01").coordinate.getX()-5, this.getInput("01").coordinate.getY()-5, 10, 10);
         return null;
     }
 }

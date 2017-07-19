@@ -112,10 +112,10 @@ public abstract class Component implements ComponentInterface{
         Coordinate inputCoords = null;
         switch (this.coord.getOrientation()){
             case UP:
-                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() + this.width, this.coord.getOrientation());
                 break;
             case DOWN:
-                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
                 break;
             case LEFT:
                 inputCoords = new Coordinate(this.coord.getX() + this.width , this.coord.getY() + this.height / 2, this.coord.getOrientation());
@@ -134,10 +134,10 @@ public abstract class Component implements ComponentInterface{
         Coordinate outputCoords = null;
         switch (this.coord.getOrientation()){
             case UP:
-                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() - this.width, this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
                 break;
             case DOWN:
-                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY(), this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX() + this.height / 2, this.coord.getY() + this.width, this.coord.getOrientation());
                 break;
             case LEFT:
                 outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height / 2, this.coord.getOrientation());
@@ -161,9 +161,9 @@ public abstract class Component implements ComponentInterface{
             case UP:
             case DOWN:
                 x = this.coord.getX();
-                y = this.coord.getY() - this.width;
+                y = this.coord.getY();
                 xMax = this.coord.getX() + this.height;
-                yMax = this.coord.getY();
+                yMax = this.coord.getY() + this.width;
                 break;
             case LEFT:
             case RIGHT:
@@ -176,7 +176,7 @@ public abstract class Component implements ComponentInterface{
                 throw new Error("INVALID ORIENTATION");
 
         }
-
+        System.out.println("{x: "+x+"; y: "+y+"; xMax: "+xMax+"; yMax: "+yMax+"}");
         this.hitbox.put("x", x);
         this.hitbox.put("y", y);
         this.hitbox.put("xMax", xMax);

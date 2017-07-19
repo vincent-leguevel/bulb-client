@@ -2,6 +2,7 @@ package fr.bulb.defaultPack;
 
 import fr.bulb.Component.*;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Button extends InterractiveComponent {
 
@@ -47,10 +48,10 @@ public class Button extends InterractiveComponent {
         Coordinate inputCoords = null;
         switch (this.coord.getOrientation()){
             case UP:
-                inputCoords = new Coordinate(this.coord.getX() + this.height, this.coord.getY(), this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX() + this.height, this.coord.getY() + this.width, this.coord.getOrientation());
                 break;
             case DOWN:
-                inputCoords = new Coordinate(this.coord.getX(), this.coord.getY() - this.width, this.coord.getOrientation());
+                inputCoords = new Coordinate(this.coord.getX(), this.coord.getY(), this.coord.getOrientation());
                 break;
             case LEFT:
                 inputCoords = new Coordinate(this.coord.getX() + this.width, this.coord.getY() + this.height, this.coord.getOrientation());
@@ -70,10 +71,10 @@ public class Button extends InterractiveComponent {
         Coordinate outputCoords = null;
         switch (this.coord.getOrientation()){
             case UP:
-                outputCoords = new Coordinate(this.coord.getX() + this.height, this.coord.getY() - this.width, this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX() + this.height, this.coord.getY(), this.coord.getOrientation());
                 break;
             case DOWN:
-                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY(), this.coord.getOrientation());
+                outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.width, this.coord.getOrientation());
                 break;
             case LEFT:
                 outputCoords = new Coordinate(this.coord.getX(), this.coord.getY() + this.height, this.coord.getOrientation());
@@ -101,7 +102,7 @@ public class Button extends InterractiveComponent {
     }
 
     public Component draw(GraphicsContext ctx) {
-
+        ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
         switch (this.coord.getOrientation()){
             case RIGHT:
             case LEFT:
@@ -113,6 +114,7 @@ public class Button extends InterractiveComponent {
                 }else{
                     ctx.strokeLine(this.coord.getX() + 60, this.coord.getY()+ this.height, this.coord.getX() + 30, this.state.equals(State.OPEN.value)? this.coord.getY(): this.coord.getY()+this.height-2);
                 }
+                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 break;
             case UP:
             case DOWN:
@@ -125,11 +127,17 @@ public class Button extends InterractiveComponent {
                 }else{
                     openValue = isUp? x - 1 : x + 1;
                 }
-                ctx.strokeLine(x, this.coord.getY(), x, this.coord.getY() - 30);
-                ctx.strokeLine(x, this.coord.getY() - 60, x, this.coord.getY() - this.width);
-                ctx.strokeLine(x, this.coord.getY() - 30, openValue , this.coord.getY() - 60);
+                ctx.strokeLine(x, this.coord.getY(), x, this.coord.getY() + 30);
+                ctx.strokeLine(x, this.coord.getY() + 60, x, this.coord.getY() + this.width);
+                ctx.strokeLine(x, this.coord.getY() + 30, openValue , this.coord.getY() + 60);
+                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
             break;
         }
+
+        ctx.setStroke(Color.RED);
+        ctx.strokeOval(this.getInput("01").coordinate.getX()-5, this.getInput("01").coordinate.getY()-5, 10, 10);
+        ctx.setStroke(Color.BLACK);
+        ctx.strokeOval(this.getOutput("01").coordinate.getX()-5, this.getOutput("01").coordinate.getY()-5, 10, 10);
         return this;
     }
 
