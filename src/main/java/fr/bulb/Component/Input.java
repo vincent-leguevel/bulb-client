@@ -2,10 +2,12 @@ package fr.bulb.Component;
 
 public class Input {
     private Output source = null;
+    private Component component;
     public Coordinate coordinate;
 
-    public Input(Coordinate coordinate){
+    public Input(Coordinate coordinate, Component componentSSSS){
         this.coordinate = coordinate;
+        this.component = component;
     }
 
     public Output getSource() {
