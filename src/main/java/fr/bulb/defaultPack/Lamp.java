@@ -78,7 +78,7 @@ public class Lamp extends Component {
                     ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
-                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
+//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 /*//first diagonal TODO if I have the MOJO
                 int circleCenterX = circleX + 25;
                 int circleCenterY = circleX + 25;
@@ -106,7 +106,7 @@ public class Lamp extends Component {
                     ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
-                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
+//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
                 break;
         }
 

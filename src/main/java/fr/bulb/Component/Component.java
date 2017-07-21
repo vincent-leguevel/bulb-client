@@ -99,15 +99,6 @@ public abstract class Component implements ComponentInterface{
         return height;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public Component setState(String state) {
-        this.state = state;
-        return this;
-    }
-
     public void setInput() {
         Coordinate inputCoords = null;
         switch (this.coord.getOrientation()){
@@ -152,7 +143,7 @@ public abstract class Component implements ComponentInterface{
         this.outputs.put("01", new Output(this, outputCoords));
     }
 
-    private void setHitBox() throws RuntimeException{
+    protected void setHitBox() throws RuntimeException{
         int x = 0;
         int y = 0;
         int yMax = 0;
