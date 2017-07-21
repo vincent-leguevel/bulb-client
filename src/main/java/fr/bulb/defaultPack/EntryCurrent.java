@@ -46,7 +46,7 @@ public class EntryCurrent extends Component {
     }
 
     public Component draw(GraphicsContext ctx) {
-        ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
+//        ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
         switch (this.coord.getOrientation()){
             case UP:
             case DOWN:
@@ -55,7 +55,7 @@ public class EntryCurrent extends Component {
                 ctx.strokeLine(this.coord.getX(), this.coord.getY() + this.width * isUp, this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2 );
                 ctx.strokeLine(this.coord.getX() + this.height, this.coord.getY() + this.width * isUp , this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2);
                 ctx.strokeLine(this.coord.getX() + this.height / 2, this.coord.getY() + this.width / 2 , this.coord.getX() + this.height / 2, this.coord.getY() + (this.width * (1 - isUp)));
-                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
+//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
                 break;
             case RIGHT:
             case LEFT:
@@ -64,10 +64,10 @@ public class EntryCurrent extends Component {
                 ctx.strokeLine(this.coord.getX() + this.width * isLeft, this.coord.getY(), this.coord.getX() + this.width / 2, this.coord.getY() + this.height / 2);
                 ctx.strokeLine(this.coord.getX() + this.width * isLeft, this.coord.getY() + this.height, this.coord.getX() + this.width / 2, this.coord.getY() + this.height / 2);
                 ctx.strokeLine(this.coord.getX() - this.width * (isLeft - 1), this.coord.getY() + this.height / 2, this.coord.getX() + this.width / 2, this.coord.getY() + this.height / 2);
-                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
+//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 break;
         }
-        ctx.strokeOval(this.getOutput("01").coordinate.getX()-5, this.getOutput("01").coordinate.getY()-5, 10, 10);
-        return null;
+//        ctx.strokeOval(this.getOutput("01").coordinate.getX()-5, this.getOutput("01").coordinate.getY()-5, 10, 10);
+        return this;
     }
 }

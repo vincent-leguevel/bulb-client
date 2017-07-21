@@ -102,7 +102,7 @@ public class Button extends InterractiveComponent {
     }
 
     public Component draw(GraphicsContext ctx) {
-        ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
+//        ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
         switch (this.coord.getOrientation()){
             case RIGHT:
             case LEFT:
@@ -114,11 +114,11 @@ public class Button extends InterractiveComponent {
                 }else{
                     ctx.strokeLine(this.coord.getX() + 60, this.coord.getY()+ this.height, this.coord.getX() + 30, this.state.equals(State.OPEN.value)? this.coord.getY(): this.coord.getY()+this.height-2);
                 }
-                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
+//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 break;
             case UP:
             case DOWN:
-                ctx.clearRect(this.coord.getX()-1, this.coord.getY()- this.width, this.height+2, this.width);
+                ctx.clearRect(this.coord.getX()-1, this.coord.getY()+ this.width, this.height+2, this.width);
                 boolean isUp = this.coord.getOrientation() == Coordinate.Orientation.UP;
                 int x = isUp ? this.coord.getX() + this.height : this.coord.getX();
                 int openValue = 0;
@@ -130,7 +130,7 @@ public class Button extends InterractiveComponent {
                 ctx.strokeLine(x, this.coord.getY(), x, this.coord.getY() + 30);
                 ctx.strokeLine(x, this.coord.getY() + 60, x, this.coord.getY() + this.width);
                 ctx.strokeLine(x, this.coord.getY() + 30, openValue , this.coord.getY() + 60);
-                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
+                //ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
             break;
         }
 
