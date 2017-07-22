@@ -1,17 +1,21 @@
 package fr.bulb.controller;
 
+import fr.bulb.constants.Tools;
 import fr.bulb.view.Connection;
 import fr.bulb.view.Propos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.Collection;
 
 public class ClientController {
 
@@ -28,15 +32,29 @@ public class ClientController {
     private Canvas canvas;
 
     @FXML
-    private StackPane stackPane;
+    private Label zoomState;
+
+    @FXML
+    private ColorPicker colorPicker;
+
+    @FXML
+    private ComboBox tools;
+
+    @FXML
+    private Pane canvasWrapper;
+
+    private Color color = Color.WHITE;
 
 
 
     @FXML
     private void initialize() {
 
-        stackPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
 
+        tools.getItems().setAll(FXCollections.observableArrayList(Tools.values()));
+        tools.getSelectionModel().selectFirst();
+
+        //Delimitation visuelle du canvas
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.strokeLine(0,0,0,canvas.getHeight());
         gc.strokeLine(0,0,canvas.getWidth(),0);
@@ -47,6 +65,7 @@ public class ClientController {
 
     @FXML
     public void connection() {
+        Stage root = (Stage) borderPane.getScene().getWindow();
         new Connection().createView();
     }
 
@@ -63,11 +82,14 @@ public class ClientController {
 
     @FXML
     public void click(MouseEvent e) {
+
         System.out.println("click");
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(color);
         gc.strokeLine(lastXMouse,lastYMouse,e.getX(),e.getY());
         lastXMouse = e.getX();
         lastYMouse = e.getY();
+        System.out.println(tools.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -77,6 +99,8 @@ public class ClientController {
             canvas.setScaleY(canvas.getScaleY()+0.2D);
             canvas.setTranslateX(canvas.getTranslateX()+200D);
             canvas.setTranslateY(canvas.getTranslateY()+200D);
+            Integer z = Integer.parseInt(zoomState.getText())+20;
+            zoomState.setText(z+"");
 
         }
     }
@@ -88,8 +112,16 @@ public class ClientController {
             canvas.setScaleY(canvas.getScaleY()-0.2D);
             canvas.setTranslateX(canvas.getTranslateX()-200D);
             canvas.setTranslateY(canvas.getTranslateY()-200D);
+            Integer z = Integer.parseInt(zoomState.getText())-20;
+            zoomState.setText(z+"");
 
         }
+    }
+
+    @FXML
+    public void pickColor(ActionEvent e){
+        System.out.println("Color");
+        color = colorPicker.getValue();
     }
 }
 

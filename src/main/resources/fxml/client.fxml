@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
@@ -15,46 +23,72 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-
 <?import javafx.scene.Group?>
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100" minWidth="100" prefHeight="450" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane fx:id="borderPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100" minWidth="100" prefHeight="450" prefWidth="800" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="Fichier">
-            <items>
-                  <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#connection" text="Connexion" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem mnemonicParsing="false" text="Nouveau" />
-                  <MenuItem mnemonicParsing="false" text="Ouvrir" />
-                  <MenuItem mnemonicParsing="false" text="Enregistrer" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edition">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Editer" />
-              <MenuItem mnemonicParsing="false" text="Supprimer" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Vue">
-            <items>
-                  <CheckMenuItem mnemonicParsing="false" text="Annimation" />
-                  <CheckMenuItem fx:id="grille" mnemonicParsing="false" text="Grille" />
-                  <CheckMenuItem mnemonicParsing="false" text="Snap" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Aide">
-              <items>
-                <MenuItem fx:id="propos" mnemonicParsing="false" onAction="#propos" text="A propos" />
-              </items>
-            </Menu>
-        </menus>
-      </MenuBar>
+      <GridPane focusTraversable="true">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <MenuBar style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" style="-fx-text-fill: #efe9ff " text="Fichier">
+                  <items>
+                        <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#connection" text="Connexion" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="Nouveau" />
+                        <MenuItem mnemonicParsing="false" text="Ouvrir" />
+                        <MenuItem mnemonicParsing="false" text="Enregistrer" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edition">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Editer" />
+                    <MenuItem mnemonicParsing="false" text="Supprimer" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Vue">
+                  <items>
+                        <CheckMenuItem mnemonicParsing="false" text="Annimation" />
+                        <CheckMenuItem fx:id="grille" mnemonicParsing="false" text="Grille" />
+                        <CheckMenuItem mnemonicParsing="false" text="Snap" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Aide">
+                    <items>
+                      <MenuItem fx:id="propos" mnemonicParsing="false" onAction="#propos" text="A propos" />
+                    </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+            <Pane focusTraversable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2c3e50;" GridPane.rowIndex="1">
+               <children>
+                  <Label layoutX="263.0" layoutY="8.0" text="Zoom :" textFill="WHITE" />
+                  <JFXButton layoutX="301.0" layoutY="4.0" onAction="#zoom" text="+" textFill="WHITE" wrapText="true" />
+                  <JFXButton layoutX="328.0" layoutY="4.0" onAction="#zoomOut" text="-" textFill="WHITE" />
+                  <Label fx:id="zoomState" layoutX="355.0" layoutY="8.0" text="100" textFill="WHITE" />
+                  <Label layoutX="374.0" layoutY="8.0" text="\%" textFill="WHITE" />
+                  <ColorPicker fx:id="colorPicker" layoutX="400.0" layoutY="2.0" onAction="#pickColor" />
+                  <Label layoutX="14.0" layoutY="8.0" text="Outils : " textFill="WHITE" />
+                  <ComboBox fx:id="tools" layoutX="72.0" layoutY="2.0" prefWidth="150.0" />
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
    </top>
    <left>
-      <TabPane prefHeight="668.0" prefWidth="297.0" style="-fx-background-color: #B8BDC3; -fx-border-color: #B8BDC3;" BorderPane.alignment="CENTER">
+      <TabPane prefHeight="668.0" prefWidth="297.0" style="-fx-background-color: #2c3e50; -fx-border-color: #B8BDC3;" BorderPane.alignment="CENTER">
          <tabs>
             <Tab closable="false" text="Composants passif">
                <content>
@@ -79,19 +113,19 @@
       <ScrollPane fx:id="scrollPane" prefHeight="371.0" prefWidth="503.0" BorderPane.alignment="CENTER">
          <content>
                <Group>
-                   <StackPane fx:id="stackPane">
-                       <Canvas fx:id="canvas" height="2000" onMouseClicked="#click" width="2000" />
-                   </StackPane>
+                  <children>
+                  <Pane fx:id="canvasWrapper" style="-fx-background-color: #7f8c8d;">
+                     <children>
+                             <Canvas fx:id="canvas" height="2000" onMouseClicked="#click" width="2000" />
+                     </children>
+                  </Pane>
+                  </children>
                </Group>
 
          </content>
       </ScrollPane>
    </center>
    <bottom>
-      <Pane prefHeight="18.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
-         <children>
-            <JFXButton layoutX="141.0" layoutY="-6.0" onAction="#zoom" text="+" />
-            <JFXButton layoutX="222.0" layoutY="-6.0" onAction="#zoomOut" text="-" />
-         </children></Pane>
+      <Pane prefHeight="18.0" prefWidth="1400.0" style="-fx-background-color: #2c3e50" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>
