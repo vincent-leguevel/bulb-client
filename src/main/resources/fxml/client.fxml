@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.Group?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100" minWidth="100" prefHeight="450" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.bulb.controller.ClientController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Fichier">
+            <items>
+                  <MenuItem fx:id="connection" mnemonicParsing="false" onAction="#connection" text="Connexion" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+              <MenuItem mnemonicParsing="false" text="Nouveau" />
+                  <MenuItem mnemonicParsing="false" text="Ouvrir" />
+                  <MenuItem mnemonicParsing="false" text="Enregistrer" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edition">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Editer" />
+              <MenuItem mnemonicParsing="false" text="Supprimer" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Vue">
+            <items>
+                  <CheckMenuItem mnemonicParsing="false" text="Annimation" />
+                  <CheckMenuItem fx:id="grille" mnemonicParsing="false" text="Grille" />
+                  <CheckMenuItem mnemonicParsing="false" text="Snap" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Aide">
+              <items>
+                <MenuItem fx:id="propos" mnemonicParsing="false" onAction="#propos" text="A propos" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <TabPane prefHeight="668.0" prefWidth="297.0" style="-fx-background-color: #B8BDC3; -fx-border-color: #B8BDC3;" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab closable="false" text="Composants passif">
+               <content>
+                  <ScrollPane prefHeight="827.0" prefWidth="398.0" />
+               </content>
+            </Tab>
+            <Tab closable="false" text="Composants actif">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+         </tabs>
+         <effect>
+            <DropShadow />
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TabPane>
+   </left>
+   <center>
+      <ScrollPane fx:id="scrollPane" prefHeight="371.0" prefWidth="503.0" BorderPane.alignment="CENTER">
+         <content>
+               <Group>
+                   <StackPane fx:id="stackPane">
+                       <Canvas fx:id="canvas" height="2000" onMouseClicked="#click" width="2000" />
+                   </StackPane>
+               </Group>
+
+         </content>
+      </ScrollPane>
+   </center>
+   <bottom>
+      <Pane prefHeight="18.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton layoutX="141.0" layoutY="-6.0" onAction="#zoom" text="+" />
+            <JFXButton layoutX="222.0" layoutY="-6.0" onAction="#zoomOut" text="-" />
+         </children></Pane>
+   </bottom>
+</BorderPane>
