@@ -1,10 +1,11 @@
 package fr.bulb.controller;
 
-import fr.bulb.constants.Tools;
+import fr.bulb.constants.ToolConstant;
+import fr.bulb.plugins.Plugin;
 import fr.bulb.view.Connection;
+import fr.bulb.view.PluginManager;
 import fr.bulb.view.Propos;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -15,12 +16,16 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientController {
 
     private Double lastXMouse = 0D;
     private Double lastYMouse = 0D;
+
+
+    private List<Plugin> plugins = new ArrayList<>();
 
     @FXML
     private BorderPane borderPane;
@@ -51,7 +56,7 @@ public class ClientController {
     private void initialize() {
 
 
-        tools.getItems().setAll(FXCollections.observableArrayList(Tools.values()));
+        tools.getItems().setAll(FXCollections.observableArrayList(ToolConstant.values()));
         tools.getSelectionModel().selectFirst();
 
         //Delimitation visuelle du canvas
@@ -72,6 +77,11 @@ public class ClientController {
     @FXML
     public void propos() throws Exception {
         new Propos().createView();
+    }
+
+    @FXML
+    public void managerPlugins() {
+        new PluginManager(this,plugins).createView();
     }
 
     @FXML
@@ -122,6 +132,10 @@ public class ClientController {
     public void pickColor(ActionEvent e){
         System.out.println("Color");
         color = colorPicker.getValue();
+    }
+
+    public void lol(){
+        System.out.println("mdr");
     }
 }
 
