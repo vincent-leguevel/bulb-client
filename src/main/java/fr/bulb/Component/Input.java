@@ -23,4 +23,12 @@ public class Input {
         this.coordinate = coordinate;
         return coordinate;
     }
+
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
+    }
 }
