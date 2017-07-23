@@ -1,17 +1,16 @@
 package fr.bulb.plugins;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import fr.bulb.constants.PluginAddStateConstant;
 import fr.bulb.constants.PluginStateConstant;
 import fr.bulb.controller.ClientController;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarFile;
 
 /**
@@ -21,9 +20,9 @@ import java.util.jar.JarFile;
 public class PluginsLoader {
 
     private static final String NAME_INTERFACE = "interface fr.bulb.plugins.PluginsBase";
-    private List<Plugin> plugins;
+    private Map<Integer,Plugin> plugins;
 
-    public PluginsLoader(List<Plugin> plugins) {
+    public PluginsLoader(Map<Integer,Plugin> plugins) {
         this.plugins = plugins;
     }
 
@@ -63,7 +62,7 @@ public class PluginsLoader {
 
                             return PluginAddStateConstant.NOT_IMPLEMENTED_INNTERFACES;
                         }
-                        plugins.add(new Plugin(contentClass, PluginStateConstant.ADDED));
+                        plugins.put(plugins.size(),new Plugin(contentClass, PluginStateConstant.ADDED));
                     }
                 }
             }
@@ -91,15 +90,15 @@ public class PluginsLoader {
 
     public PluginBean fillTableView(Plugin plugin) {
 
+        PluginBean pb = null;
         try {
             PluginsBase contentClass = (PluginsBase) plugin.getContentClass().newInstance();
-            PluginBean pb = new PluginBean(contentClass.getName(),contentClass.getVersion(),contentClass.getDescription(),contentClass.getCategory())
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+            pb = new PluginBean(contentClass.getName(),contentClass.getVersion(),contentClass.getDescription(),contentClass.getCategory(),PluginStateConstant.ADDED);
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
 //        return new PluginBean()
+        return pb;
     }
 }

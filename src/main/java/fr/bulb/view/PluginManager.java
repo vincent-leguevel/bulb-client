@@ -13,6 +13,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vincent Le Guevel (vincent.leguevel.sio@gmail.com)
@@ -21,9 +22,9 @@ import java.util.List;
 public class PluginManager {
 
     ClientController clientController;
-    List<Plugin> plugins;
+    Map<Integer,Plugin> plugins;
 
-    public PluginManager(ClientController clientController, List<Plugin> plugins) {
+    public PluginManager(ClientController clientController, Map<Integer,Plugin> plugins) {
         this.clientController = clientController;
         this.plugins = plugins;
     }

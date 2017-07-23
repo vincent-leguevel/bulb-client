@@ -11,9 +11,9 @@ public interface PluginsBase {
 
     String getName();
     Double getVersion();
-    int getCategory();
+    String getCategory();
     String getDescription();
     void loadPlugin(ClientController cc);
-    void unloadPlugin();
+    void unloadPlugin(ClientController cc);
     void onAction(Object o);
 }

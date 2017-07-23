@@ -8,6 +8,8 @@ import fr.bulb.plugins.PluginsLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vincent Le Guevel (vincent.leguevel.sio@gmail.com)
@@ -25,9 +28,9 @@ import java.util.List;
  */
 public class PluginManagerController {
 
+    //fxml attributs
     @FXML
     private BorderPane borderPane;
-
     @FXML
     private TableView<PluginBean> tableView;
     @FXML
@@ -35,27 +38,35 @@ public class PluginManagerController {
     @FXML
     private TableColumn<PluginBean,String> descColumn;
     @FXML
-    private TableColumn<PluginBean,Float> versionColumn;
+    private TableColumn<PluginBean,Double> versionColumn;
     @FXML
     private TableColumn<PluginBean,String> categoryColumn;
     @FXML
     private TableColumn<PluginBean,PluginStateConstant> stateColumn;
+    @FXML
+    private ComboBox loadComboBox;
+    @FXML
+    private ComboBox disableComboBox;
+    @FXML
+    private Button loadConfirm;
+    @FXML
+    private Button disableConfirm;
 
-
-    private List<Plugin> plugins;
+    //controller attributs
+    private ObservableList<PluginBean> observableList;
+    private Map<Integer,Plugin> plugins;
     private ClientController clientController;
 
     @FXML
     private void initialize(){
-        System.out.println("bonjour");
-        ObservableList<PluginBean> observableList = FXCollections.observableArrayList();
-        observableList.add(new PluginBean("UnNom",1F,"Un plugin","Une catégorie",PluginStateConstant.LOADED));
 
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        stateColumn.setCellValueFactory(new PropertyValueFactory<>("pluginState"));
+        observableList = FXCollections.observableArrayList();
+
+        nameColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, String>("name"));
+        descColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, String>("description"));
+        versionColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, Double>("version"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, String>("category"));
+        stateColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, PluginStateConstant>("pluginState"));
 
         tableView.setItems(observableList);
     }
@@ -72,18 +83,20 @@ public class PluginManagerController {
         if(file != null){
             PluginAddStateConstant pluginAddStateConstant = pl.addPlugin(file);
             if(pluginAddStateConstant == PluginAddStateConstant.ADDED) {
-                pl.fillTableView(plugins.get(plugins.size()-1));
+                //Si le plugin est bien formé on l'ajoute à la liste des plugins en état ajouté
+                PluginBean pb = pl.fillTableView(plugins.get(plugins.size()-1));
+                observableList.add(pb);
             }
         }
     }
 
 
 
-    public List<Plugin> getPlugins() {
+    public Map<Integer,Plugin> getPlugins() {
         return plugins;
     }
 
-    public void setPlugins(List<Plugin> plugins) {
+    public void setPlugins(Map<Integer,Plugin> plugins) {
         this.plugins = plugins;
     }
 

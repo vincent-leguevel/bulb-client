@@ -17,7 +17,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClientController {
 
@@ -25,7 +27,7 @@ public class ClientController {
     private Double lastYMouse = 0D;
 
 
-    private List<Plugin> plugins = new ArrayList<>();
+    private Map<Integer,Plugin> plugins = new HashMap<>();
 
     @FXML
     private BorderPane borderPane;
@@ -47,6 +49,9 @@ public class ClientController {
 
     @FXML
     private Pane canvasWrapper;
+
+    @FXML
+    private MenuBar menuBar;
 
     private Color color = Color.WHITE;
 
@@ -85,7 +90,7 @@ public class ClientController {
     }
 
     @FXML
-    public void quitter() throws Exception {
+    public void quit() throws Exception {
         Stage root = (Stage) borderPane.getScene().getWindow();
         root.close();
     }
@@ -103,7 +108,7 @@ public class ClientController {
     }
 
     @FXML
-    public void zoom() {
+    private void zoom() {
         if(canvas.getScaleX() < 2.6D){
             canvas.setScaleX(canvas.getScaleX()+0.2D);
             canvas.setScaleY(canvas.getScaleY()+0.2D);
@@ -116,7 +121,7 @@ public class ClientController {
     }
 
     @FXML
-    public void zoomOut() {
+    private void zoomOut() {
         if(canvas.getScaleX() > 0.6D){
             canvas.setScaleX(canvas.getScaleX()-0.2D);
             canvas.setScaleY(canvas.getScaleY()-0.2D);
@@ -134,8 +139,32 @@ public class ClientController {
         color = colorPicker.getValue();
     }
 
-    public void lol(){
-        System.out.println("mdr");
+    public Map<Integer,Plugin> getPlugins() {
+        return plugins;
+    }
+
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
+
+    public ScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public ComboBox getTools() {
+        return tools;
+    }
+
+    public Pane getCanvasWrapper() {
+        return canvasWrapper;
+    }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
     }
 }
 
