@@ -223,7 +223,8 @@ public abstract class Component implements ComponentInterface{
     public void resetState(GraphicsContext ctx){
         this.state = this.defaultState;
         System.out.println(this.getClass().getName()+" : " +state);
-        this.tick(ctx);
+        this.tick();
+        this.draw(ctx);
     }
 
     public void clearGUI(GraphicsContext ctx){

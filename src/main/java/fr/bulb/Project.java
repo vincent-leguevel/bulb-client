@@ -70,10 +70,12 @@ public class Project {
                     @Override
                     public void run() {
                         drawCircuit();
-                        //tickCircuit(); //TODO next step
+                        tickCircuit();
                     }
                 }, 0, 50);
-            }// else INVALID CIRCUIT
+            } else {
+                throw new Error("INVALID CIRCUIT: CIRCUIT NOT CLOSE");
+            }
         }
     }
 
@@ -94,6 +96,23 @@ public class Project {
             cable.draw(ctx);
         }
     }
+    
+    private void tickCircuit(){
+        for (Component entry :
+                this.circuitEntries) {
+            this.tickCircuit(entry);
+        }
+    }
+
+    private void tickCircuit(Component source){
+        source.tick();
+        for (Output output :
+                source.getOutputs().values()) {
+            if (output.nextComponent != null){
+                tickCircuit(output.nextComponent);
+            }
+        }
+    }
 
     public void stopAnimation(){
         if(this.state == State.ANIMATION) {
@@ -110,6 +129,9 @@ public class Project {
             String key = entry.getKey();
             ArrayList<Component> value = entry.getValue();
 
+            if(key.equals(Cable.class.getName())){
+                continue;
+            }
             for(Component component : value){
                 if(component.isInHitbox(coordinate)){
                     return component;
@@ -128,7 +150,7 @@ public class Project {
         }
     }
 
-    public void resetComponents(){
+    private void resetComponents(){
         for (ArrayList<Component> components:
                 this.posedComponent.values()){
             for (Component component:
@@ -188,6 +210,48 @@ public class Project {
         this.posedComponent.get(Cable.class.getName()).add(cable);
     }
 
+    public void removeComponent(Coordinate coord){
+        Component hasBeenClicked = this.isInComponent(coord);
+        if(hasBeenClicked != null){
+            for (Input input :
+                    hasBeenClicked.getInputs().values()) {
+                Output currentComponent = input.getSource();
+                if(input.getSource() != null) {
+                    if (currentComponent.originComponent.getClass().getName().equals(Cable.class.getName())) { //if my current Component is a cable then
+                        Component cable = currentComponent.originComponent; //I store the reference
+                        currentComponent = currentComponent.originComponent.getInput("01").getSource(); //set currentComponent to the cable's source Component
+                        this.posedComponent.get(cable.getClass().getName()).remove(cable); //now i can remove my cable
+                    }
+                    currentComponent.nextComponent = null; //and finally set the nextComponent of my currentComponent to null
+                }else{
+                    continue;
+                }
+            }
+
+            for (Output output :
+                    hasBeenClicked.getOutputs().values()) { //same with the outputs
+                if (output.nextComponent != null) {
+                    Component currentComponent = output.nextComponent;
+
+                    Coordinate sourceCoordinate = output.coordinate;
+                    if (currentComponent.getClass().getName().equals(Cable.class.getName())) { //if my current Component is a cable then
+                        Component cable = currentComponent; //I store the reference
+                        currentComponent = currentComponent.getOutput("01").nextComponent; //set currentComponent to the cable's destination Input
+                        sourceCoordinate = cable.getOutput("01").coordinate;
+                        this.posedComponent.get(cable.getClass().getName()).remove(cable); //now i can remove my cable
+                    }
+                    currentComponent.isInInput(sourceCoordinate).setSource(null);
+                }else{
+                    continue;
+                }
+            }
+            hasBeenClicked.clearGUI(this.ctx);
+            this.posedComponent.get(hasBeenClicked.getClass().getName()).remove(hasBeenClicked);
+            ctx.clearRect(0,0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight()); //delete cable artifact
+            this.drawCircuit();
+        }
+    }
+
     private boolean isInteractif(Class classe){
         return InterractiveComponentInterface.class.isAssignableFrom(classe);
     }
@@ -196,7 +260,7 @@ public class Project {
         return EntryCurrent.class.isAssignableFrom(classe);
     }
 
-    public boolean circuitIsValid(Component source){
+    private boolean circuitIsValid(Component source){
         for(Output output:
                 source.getOutputs().values()){
             if (output.nextComponent == null){
@@ -211,7 +275,7 @@ public class Project {
         return false;
     }
 
-    public boolean circuitIsValid(){
+    private boolean circuitIsValid(){
         if(this.circuitEntries.size() == 0){
             return false;
         }

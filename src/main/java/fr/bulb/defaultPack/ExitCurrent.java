@@ -34,8 +34,7 @@ public class ExitCurrent extends Component{
         // THERE IS NO INPUT
     }
 
-    public Component tick(GraphicsContext ctx) {
-        draw(ctx);
+    public Component tick() {
         return this;
     }
 

@@ -86,7 +86,7 @@ public class Button extends InterractiveComponent {
         this.outputs.put("01", new Output(this, outputCoords));
     }
 
-    public Component tick(GraphicsContext ctx) {
+    public Component tick() {
         if (this.state.equals(State.OPEN.value)){
             //when open transmit null current
             this.getOutput("01").setValue(null);
@@ -94,7 +94,7 @@ public class Button extends InterractiveComponent {
             //when close transmit input current
             this.getOutput("01").setValue(this.getInput("01").getSource().getValue());
         }
-        draw(ctx);
+        //draw(ctx);
         return this;
     }
 

@@ -37,8 +37,8 @@ public class EntryCurrent extends Component {
         // THERE IS NO INPUT
     }
 
-    public Component tick(GraphicsContext ctx) {
-        draw(ctx);
+    public Component tick() {
+//        draw(ctx);
         if(this.getOutput("01").getValue() == null){
             this.getOutput("01").setValue(this.electricity);
         }

@@ -11,19 +11,22 @@ import fr.bulb.view.Propos;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Delayed;
 
 public class ClientController {
 
@@ -55,7 +58,8 @@ public class ClientController {
 
     private Color color = Color.WHITE;
 
-
+    @FXML
+    private Text errorLog;
 
     @FXML
     private void initialize(){
@@ -100,6 +104,7 @@ public class ClientController {
 
     @FXML
     public void quitter() throws Exception {
+        this.stopAnimation();
         Stage root = (Stage) borderPane.getScene().getWindow();
         root.close();
     }
@@ -108,7 +113,20 @@ public class ClientController {
     public void playAnimation(){
         this.project.erasePreviewComponent();
         this.project.toPreview = null;
-        this.project.launchAnimation();
+        try {
+            this.project.launchAnimation();
+        }catch (Error error){
+            errorLog.setText(error.getMessage());
+            Timer eraseLog = new Timer();
+
+            eraseLog.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    errorLog.setText(null);
+                    this.cancel();
+                }
+            }, 1500);
+        }
     }
 
     @FXML
@@ -118,27 +136,38 @@ public class ClientController {
 
     @FXML
     public void click(MouseEvent e) {
+        System.out.println(e.getButton());
         Coordinate coord = new Coordinate((int)e.getX(), (int)e.getY(), this.project.getOrientation());
-        switch (this.project.getState()){
-            case ANIMATION:
-                this.project.clickOnComponent(coord);
-                break;
-            case EDITION:
-                Component clickedComponent = this.project.isInComponent(coord);
-                if(clickedComponent != null){
-                    Input isInput = clickedComponent.isInInput(coord);
-                    Output isOutput = clickedComponent.isInOutput(coord);
+        if(e.getButton() == MouseButton.PRIMARY) {
+            switch (this.project.getState()) {
+                case ANIMATION:
+                    this.project.clickOnComponent(coord);
+                    break;
+                case EDITION:
+                    Component clickedComponent = this.project.isInComponent(coord);
+                    if (clickedComponent != null) {
+                        Input isInput = clickedComponent.isInInput(coord);
+                        Output isOutput = clickedComponent.isInOutput(coord);
 
-                    if(isOutput != null){
-                        this.project.activeOutput = isOutput;
-                    }else if(isInput != null && this.project.activeOutput != null){
-                        this.project.addCable(this.project.activeOutput, isInput);
-                        this.project.activeOutput = null;
+                        if (isOutput != null) {
+                            this.project.activeOutput = isOutput;
+                        } else if (isInput != null && this.project.activeOutput != null) {
+                            this.project.addCable(this.project.activeOutput, isInput);
+                            this.project.activeOutput = null;
+                        }
+                    } else {
+                        this.project.addComponent(coord);
                     }
-                }else {
-                    this.project.addComponent(coord);
-                }
-                break;
+                    break;
+            }
+        }else if (e.getButton() == MouseButton.SECONDARY){
+            switch (this.project.getState()){
+                case ANIMATION:
+                    break;
+                case EDITION:
+                    this.project.removeComponent(coord);
+                    break;
+            }
         }
     }
 

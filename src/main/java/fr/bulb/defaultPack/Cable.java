@@ -47,7 +47,7 @@ public class Cable extends Component {
         this.outputs.put("01", new Output(this, this.end));
     }
 
-    public Cable tick(GraphicsContext ctx) {
+    public Cable tick() {
         this.getOutput("01").setValue(this.getInput("01").getSource().getValue());
         return this;
     }

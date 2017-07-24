@@ -41,14 +41,13 @@ public class Lamp extends Component {
         return 0;
     }
 
-    public Component tick(GraphicsContext ctx) {
-        System.out.println("tick");
+    public Component tick() {
         if(this.getInput("01").getSource().getValue() != null ){
             this.state = State.POWERED.value;
         }else{
             this.state = State.UNPOWERED.value;
         }
-        draw(ctx);
+//        draw(ctx);
         return this;
     }
 
