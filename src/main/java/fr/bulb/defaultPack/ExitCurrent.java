@@ -7,7 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class ExitCurrent extends Component{
     public ExitCurrent(Coordinate coordinate) {
-        super("ExitCurrent", "Gro-01", "Passive", "Standard ExitCurrent", 0, 0, coordinate, 40, 30);
+        super("ExitCurrent", "Gro-01", "Passive", "Standard ExitCurrent", null,0, 0, coordinate, 40, 30);
 
         this.setInput();
     }

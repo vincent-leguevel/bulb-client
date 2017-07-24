@@ -5,8 +5,12 @@ public class Input {
     private Component component;
     public Coordinate coordinate;
 
-    public Input(Coordinate coordinate, Component componentSSSS){
+    public Input(Coordinate coordinate){
         this.coordinate = coordinate;
+    }
+
+    public Input(Coordinate coordinate, Component component){
+        this(coordinate);
         this.component = component;
     }
 

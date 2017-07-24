@@ -8,7 +8,5 @@ public class App
     {
         System.out.println( "Main" );
         new Client().createView();
-
     }
 }
-

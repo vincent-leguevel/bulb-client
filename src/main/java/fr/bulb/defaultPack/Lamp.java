@@ -18,9 +18,7 @@ public class Lamp extends Component {
     }
 
     public Lamp(Coordinate coordinate){
-        super("Lamp", "Lam-01", "Passive", "Standard lamp", 0.04, 0, coordinate, 100, 50);
-
-        this.state = State.UNPOWERED.value;
+        super("Lamp", "Lam-01", "Passive", "Standard lamp", State.UNPOWERED.value, 0.04, 0, coordinate, 100, 50);
 
         this.setInput();
         this.setOutput();
@@ -55,11 +53,6 @@ public class Lamp extends Component {
     }
 
     public Component draw(GraphicsContext ctx) {
-
-        //System.out.println(this.coord+" width: "+this.width+"; height: "+this.height+"; state:" + this.state);
-
-        //ctx.strokeOval(this.coord.getX()-5, this.coord.getY()-5, 10, 10);
-
         int circleX = 0;
         int circleY = 0;
 
@@ -68,7 +61,6 @@ public class Lamp extends Component {
             case LEFT:
                 int y = this.coord.getY() + this.height / 2 ;
                 ctx.clearRect(this.coord.getX(), this.coord.getY(), this.width, this.height);
-                //ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.width, this.height);
                 ctx.strokeLine(this.coord.getX(),y,this.coord.getX() + 25, y);
                 ctx.strokeLine(this.coord.getX() + 75,y, this.coord.getX() + this.width, y);
                 circleX = this.coord.getX() + 25;
@@ -78,19 +70,6 @@ public class Lamp extends Component {
                     ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
-//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
-                /*//first diagonal TODO if I have the MOJO
-                int circleCenterX = circleX + 25;
-                int circleCenterY = circleX + 25;
-                //origin
-                double x10 = circleCenterX + 25 * Math.cos((3*Math.PI)/4);
-                double y10 = circleCenterY + 25 * Math.sin((3*Math.PI)/4);
-
-                //destination
-                double x11 = circleCenterX + 25 * Math.cos((-Math.PI)/4);
-                double y11 = circleCenterY + 25 * Math.sin((-Math.PI)/4);
-
-                ctx.strokeLine(x10, y10, x11, y11);*/
                 break;
             case UP:
             case DOWN:

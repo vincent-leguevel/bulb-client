@@ -3,7 +3,8 @@ package fr.bulb.Component;
 public class Output{
     private Input destination;
     public Coordinate coordinate;
-    private Component originComponent;
+    public Component originComponent;
+    public Component nextComponent;
     private Electricity value = null;
 
     public Output(Input destination, Component originComponent, Coordinate coordinate, Electricity electricity){

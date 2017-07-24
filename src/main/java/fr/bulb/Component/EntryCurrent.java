@@ -1,4 +1,4 @@
-package fr.bulb.defaultPack;
+package fr.bulb.Component;
 
 import fr.bulb.Component.*;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,7 +8,7 @@ public class EntryCurrent extends Component {
     private Electricity electricity;
 
     public EntryCurrent(Coordinate coordinate, Electricity electricity ) {
-        super("EntryCurrent", "Gen-01", "Passive", "Standard EntryCurrent", 0, 0, coordinate, 40, 30);
+        super("EntryCurrent", "Gen-01", "Passive", "Standard EntryCurrent", null,0, 0, coordinate, 40, 30);
         this.electricity = electricity;
 
         this.setOutput();

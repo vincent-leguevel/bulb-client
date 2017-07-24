@@ -19,6 +19,7 @@ public abstract class Component implements ComponentInterface{
     protected int resistance;
     protected double ampMax;
     protected String state;
+    protected String defaultState;
     protected HashMap<String,Input> inputs = new HashMap<String, Input>();
     protected HashMap<String,Output> outputs = new HashMap<String, Output>();
 
@@ -29,11 +30,13 @@ public abstract class Component implements ComponentInterface{
     protected int height;
     protected ImageIO icon; //need to be define in the constructor
 
-    public Component(String name, String ref, String category, String description, double ampMax, int resistance, Coordinate coordinate, int width, int height){
+    public Component(String name, String ref, String category, String description, String defaultState, double ampMax, int resistance, Coordinate coordinate, int width, int height){
         this.name = name;
         this.ref = ref;
         this.category = category;
         this.description = description;
+        this.defaultState = defaultState;
+        this.state = defaultState;
 
         this.resistance = resistance;
         this.ampMax = ampMax;
@@ -65,6 +68,15 @@ public abstract class Component implements ComponentInterface{
 
     public Output getOutput(String index) {
         return this.outputs.get(index);
+    }
+
+    public void rotate(Coordinate.Orientation orientation, GraphicsContext ctx){
+        this.clearGUI(ctx);
+        this.getCoord().setOrientation(orientation);
+        this.setHitBox();
+        this.setOutput();
+        this.setInput();
+        this.draw(ctx);
     }
 
     public Component setOutput(String outputId, Output output){
@@ -118,7 +130,7 @@ public abstract class Component implements ComponentInterface{
                 throw new RuntimeException("INVALID ORIENTATION");
         }
 
-        this.inputs.put("01", new Input(inputCoords));
+        this.inputs.put("01", new Input(inputCoords, this));
     }
 
     public void setOutput() {
@@ -167,18 +179,64 @@ public abstract class Component implements ComponentInterface{
                 throw new Error("INVALID ORIENTATION");
 
         }
-        System.out.println("{x: "+x+"; y: "+y+"; xMax: "+xMax+"; yMax: "+yMax+"}");
         this.hitbox.put("x", x);
         this.hitbox.put("y", y);
         this.hitbox.put("xMax", xMax);
         this.hitbox.put("yMax", yMax);
     }
 
+    public Input isInInput(Coordinate coord){
+        for(Input input :
+                this.getInputs().values()){
+            if(coord.getX() >= input.coordinate.getX()-5
+                    && coord.getX() <= input.coordinate.getX()+5
+                    && coord.getY() >= input.coordinate.getY()-5
+                    && coord.getY() <= input.coordinate.getY()+5){
+                return input;
+            }
+        }
+        return null;
+    }
+
+    public Output isInOutput(Coordinate coord){
+        for(Output output :
+                this.getOutputs().values()){
+            if(coord.getX() >= output.coordinate.getX()-5
+                    && coord.getX() <= output.coordinate.getX()+5
+                    && coord.getY() >= output.coordinate.getY()-5
+                    && coord.getY() <= output.coordinate.getY()+5){
+                return output;
+            }
+        }
+        return null;
+    }
+
     public boolean isInHitbox(Coordinate coordinate){
         return coordinate.getX() >= this.hitbox.get("x")
                 && coordinate.getX() <= this.hitbox.get("xMax")
                 && coordinate.getY() >= this.hitbox.get("y")
-                && coordinate.getY() <= this.hitbox.get("yMax");
+                && coordinate.getY() <= this.hitbox.get("yMax")
+                || this.isInInput(coordinate) != null
+                || this.isInOutput(coordinate) != null;
+    }
+
+    public void resetState(GraphicsContext ctx){
+        this.state = this.defaultState;
+        System.out.println(this.getClass().getName()+" : " +state);
+        this.tick(ctx);
+    }
+
+    public void clearGUI(GraphicsContext ctx){
+        switch (this.coord.getOrientation()){
+            case UP:
+            case DOWN:
+                ctx.clearRect(this.coord.getX() - 11, this.coord.getY() - 11, this.height + 22, this.width + 22);
+                break;
+            case RIGHT:
+            case LEFT:
+                ctx.clearRect(this.coord.getX() -11 , this.coord.getY() - 11, this.width + 22, this.height + 22);
+                break;
+        }
     }
 
     public Component initGui(GraphicsContext ctx) {
