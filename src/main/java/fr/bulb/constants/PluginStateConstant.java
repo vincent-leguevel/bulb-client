@@ -8,7 +8,8 @@ public enum PluginStateConstant {
     ADDED("Ajouté"),
     LOADED("Chargé"),
     DISABLED("désactivé"),
-    IMPOSSIBLE_TO_LOAD("Impossible de charger le plugin");
+    IMPOSSIBLE_TO_LOAD("Impossible de charger le plugin"),
+    IMPOSSIBLE_TO_UNLOAD("Impossible de décharger le plugin");
 
     private String name = "";
 

@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,10 +81,13 @@ public class PluginManagerController {
         File file = fc.showOpenDialog(root);
         if(file != null){
             PluginAddStateConstant pluginAddStateConstant = pl.addPlugin(file);
+
             if(pluginAddStateConstant == PluginAddStateConstant.ADDED) {
                 //Si le plugin est bien formé on l'ajoute à la liste des plugins en état ajouté
-                PluginBean pb = pl.fillTableView(plugins.get(plugins.size()-1));
+                PluginBean pb = pl.getPluginInformation(plugins.get(plugins.size()-1));
                 observableList.add(pb);
+                pl.loadPlugin(plugins.get(plugins.size()-1),clientController);
+                pl.unloadPlugin(plugins.get(plugins.size()-1),clientController);
             }
         }
     }

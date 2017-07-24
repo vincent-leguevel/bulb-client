@@ -3,9 +3,14 @@ package fr.bulb.plugins;
 import fr.bulb.constants.PluginAddStateConstant;
 import fr.bulb.constants.PluginStateConstant;
 import fr.bulb.controller.ClientController;
+import fr.bulb.plugins.annotation.LoadPlugin;
+import fr.bulb.plugins.annotation.UnloadPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
@@ -42,7 +47,7 @@ public class PluginsLoader {
             Enumeration enumeration = jar.entries();
 
 
-            main:while(enumeration.hasMoreElements()){
+            while(enumeration.hasMoreElements()){
 
                 String contentName = enumeration.nextElement().toString();
 
@@ -62,7 +67,9 @@ public class PluginsLoader {
 
                             return PluginAddStateConstant.NOT_IMPLEMENTED_INNTERFACES;
                         }
+                        // Si l'interface a été trouvé on ajoute le plugin à la liste et on stop la boucle
                         plugins.put(plugins.size(),new Plugin(contentClass, PluginStateConstant.ADDED));
+                        break;
                     }
                 }
             }
@@ -73,27 +80,90 @@ public class PluginsLoader {
         return classFound != 0 ? PluginAddStateConstant.ADDED : PluginAddStateConstant.NOT_CLASS_FOUND;
     }
 
+    /**
+     * Charge le plugin (via l'annotation LoadPlugin)
+     * @param plugin
+     * @param cc
+     * @return
+     */
     public PluginStateConstant loadPlugin(Plugin plugin, ClientController cc) {
 
+        Class contentClass = plugin.getContentClass();
+
         try {
-            PluginsBase pb = (PluginsBase) plugin.getContentClass().newInstance();
-            pb.loadPlugin(cc);
-            plugin.setState(PluginStateConstant.LOADED);
+            PluginsBase pb = (PluginsBase) contentClass.newInstance();
+
+            main:for(Method method : contentClass.getDeclaredMethods()) {
+                for(Annotation annotation : method.getAnnotations()){
+                    if(annotation instanceof LoadPlugin) {
+                        System.out.println("qsrfgsdrfedqswgsfrsfg");
+                        method.invoke(contentClass.newInstance(),cc);
+                        break main;
+                    }
+                }
+            }
+            //Lorsque l'annotation LoadPlugin n'est pas trouvé
+            if(plugin.getState() == null) {
+                return PluginStateConstant.IMPOSSIBLE_TO_LOAD;
+            }
+
+
         } catch (InstantiationException | IllegalAccessException e) {
-            //Si une erreur se produit la méthode renvoie PluginStateConstant.ADDED
+            //Si une erreur se produit la méthode renvoie PluginStateConstant.IMPOSSIBLE_TO_LOAD
             return PluginStateConstant.IMPOSSIBLE_TO_LOAD;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
 
 
         return PluginStateConstant.LOADED;
     }
 
-    public PluginBean fillTableView(Plugin plugin) {
+    public PluginStateConstant unloadPlugin(Plugin plugin,ClientController cc){
+
+        Class contentClass = plugin.getContentClass();
+
+        try {
+            PluginsBase pb = (PluginsBase) contentClass.newInstance();
+
+            main:for(Method method : contentClass.getDeclaredMethods()) {
+                for(Annotation annotation : method.getAnnotations()){
+                    if(annotation instanceof UnloadPlugin) {
+                        method.invoke(contentClass.newInstance(),cc);
+                        break main;
+                    }
+                }
+            }
+            //Lorsque l'annotation UnLoadLoadPlugin n'est pas trouvé
+            if(plugin.getState().equals(PluginStateConstant.LOADED)) {
+                return PluginStateConstant.IMPOSSIBLE_TO_UNLOAD;
+            }
+
+
+        } catch (InstantiationException | IllegalAccessException e) {
+            //Si une erreur se produit la méthode renvoie PluginStateConstant.IMPOSSIBLE_TO_LOAD
+            return PluginStateConstant.IMPOSSIBLE_TO_LOAD;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
+        return PluginStateConstant.DISABLED;
+
+    }
+
+    /**
+     * Récupère les information du plugin (Nom, version, déscription, catégorie)
+     * @param plugin
+     * @return
+     */
+    public PluginBean getPluginInformation(Plugin plugin) {
 
         PluginBean pb = null;
         try {
             PluginsBase contentClass = (PluginsBase) plugin.getContentClass().newInstance();
             pb = new PluginBean(contentClass.getName(),contentClass.getVersion(),contentClass.getDescription(),contentClass.getCategory(),PluginStateConstant.ADDED);
+            plugin.setPluginBean(pb);
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
