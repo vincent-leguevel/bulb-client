@@ -19,29 +19,17 @@ import java.util.Collection;
 
 public class ClientController {
 
-    private Double lastXMouse = 0D;
-    private Double lastYMouse = 0D;
-
     @FXML
     private BorderPane borderPane;
 
     @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
     private Canvas canvas;
-
-    @FXML
-    private Label zoomState;
 
     @FXML
     private ColorPicker colorPicker;
 
     @FXML
     private ComboBox tools;
-
-    @FXML
-    private Pane canvasWrapper;
 
     private Color color = Color.WHITE;
 
@@ -82,41 +70,8 @@ public class ClientController {
 
     @FXML
     public void click(MouseEvent e) {
-
-        System.out.println("click");
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(color);
-        gc.strokeLine(lastXMouse,lastYMouse,e.getX(),e.getY());
-        lastXMouse = e.getX();
-        lastYMouse = e.getY();
-        System.out.println(tools.getSelectionModel().getSelectedItem());
     }
 
-    @FXML
-    public void zoom() {
-        if(canvas.getScaleX() < 2.6D){
-            canvas.setScaleX(canvas.getScaleX()+0.2D);
-            canvas.setScaleY(canvas.getScaleY()+0.2D);
-            canvas.setTranslateX(canvas.getTranslateX()+200D);
-            canvas.setTranslateY(canvas.getTranslateY()+200D);
-            Integer z = Integer.parseInt(zoomState.getText())+20;
-            zoomState.setText(z+"");
-
-        }
-    }
-
-    @FXML
-    public void zoomOut() {
-        if(canvas.getScaleX() > 0.6D){
-            canvas.setScaleX(canvas.getScaleX()-0.2D);
-            canvas.setScaleY(canvas.getScaleY()-0.2D);
-            canvas.setTranslateX(canvas.getTranslateX()-200D);
-            canvas.setTranslateY(canvas.getTranslateY()-200D);
-            Integer z = Integer.parseInt(zoomState.getText())-20;
-            zoomState.setText(z+"");
-
-        }
-    }
 
     @FXML
     public void pickColor(ActionEvent e){
