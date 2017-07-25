@@ -95,12 +95,18 @@
          <tabs>
             <Tab closable="false" text="Composants passif">
                <content>
-                  <ScrollPane prefHeight="827.0" prefWidth="398.0" />
+                  <ScrollPane prefHeight="827.0" prefWidth="398.0">
+                     <content>
+                        <JFXListView fx:id="passifComponentList" prefHeight="400.0" prefWidth="279.0" />
+                     </content></ScrollPane>
                </content>
             </Tab>
             <Tab closable="false" text="Composants actif">
                <content>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <JFXListView fx:id="actifComponentList" prefHeight="400.0" prefWidth="280.0" />
+                     </content></ScrollPane>
                </content>
             </Tab>
          </tabs>

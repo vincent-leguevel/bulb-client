@@ -1,15 +1,18 @@
 package fr.bulb.controller;
 
+import com.jfoenix.controls.JFXListView;
 import fr.bulb.Component.Coordinate.Orientation;
 import fr.bulb.Project;
 import fr.bulb.constants.Tools;
 import fr.bulb.Component.*;
 import fr.bulb.defaultPack.*;
-import fr.bulb.defaultPack.Button;
 import fr.bulb.view.Connection;
 import fr.bulb.view.Propos;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -26,7 +29,6 @@ import javafx.stage.Stage;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Delayed;
 
 public class ClientController {
 
@@ -51,7 +53,7 @@ public class ClientController {
     private ColorPicker colorPicker;
 
     @FXML
-    private ComboBox tools;
+    private ComboBox<Tools> tools;
 
     @FXML
     private Pane canvasWrapper;
@@ -60,6 +62,12 @@ public class ClientController {
 
     @FXML
     private Text errorLog;
+
+    @FXML
+    private JFXListView<String> passifComponentList;
+
+    @FXML
+    private JFXListView<String> actifComponentList;
 
     @FXML
     private void initialize(){
@@ -75,20 +83,22 @@ public class ClientController {
         gc.strokeLine(canvas.getWidth(),0,canvas.getWidth(),canvas.getHeight());
         gc.strokeLine(0,0,0,canvas.getHeight());
 
-        project = new Project(gc);
+        this.project = new Project(gc);
 
-        project.setOrientation(Orientation.DOWN);
+        ObservableList<String> data = FXCollections.observableArrayList("AlternatingEntryCurrent", "ExitCurrent", "Lamp");
+        this.passifComponentList.setItems(data);
 
-        project.setSelectComponent(Button.class);
+        ObservableList<String> data2 = FXCollections.observableArrayList("Button");
+        this.actifComponentList.setItems(data2);
 
-        project.addComponent(new Coordinate(85, 10, Orientation.DOWN), AlternatingEntryCurrent.class.getName());
-
-        project.addComponent(new Coordinate(100,120, Orientation.DOWN), "fr.bulb.defaultPack.Button");
-
-        project.addComponent(new Coordinate(75, 250, Orientation.DOWN), Lamp.class.getName());
-
-        project.addComponent(new Coordinate(85, 380, Orientation.DOWN), ExitCurrent.class.getName());
-
+        ChangeListener<String> setSelectedComponent = new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> ov,
+                                String old_val, String new_val) {
+                project.setSelectComponent(new_val);
+            }
+        };
+        this.actifComponentList.getSelectionModel().selectedItemProperty().addListener(setSelectedComponent);
+        this.passifComponentList.getSelectionModel().selectedItemProperty().addListener(setSelectedComponent);
     }
 
     @FXML
@@ -111,8 +121,7 @@ public class ClientController {
 
     @FXML
     public void playAnimation(){
-        this.project.erasePreviewComponent();
-        this.project.toPreview = null;
+        project.erasePreviewComponent();
         try {
             this.project.launchAnimation();
         }catch (Error error){
@@ -125,7 +134,7 @@ public class ClientController {
                     errorLog.setText(null);
                     this.cancel();
                 }
-            }, 1500);
+            }, 3000);
         }
     }
 
@@ -227,7 +236,7 @@ public class ClientController {
 
     public void previewComponent(MouseEvent e){
         Coordinate coordinate = new Coordinate((int)e.getX(), (int)e.getY());
-        if (this.project.isInComponent(coordinate) == null){
+        if (this.project.isInComponent(coordinate) == null && this.project.getState() == Project.State.EDITION){
             this.project.previewSelectComponent(coordinate);
         }else{
             this.project.erasePreviewComponent();

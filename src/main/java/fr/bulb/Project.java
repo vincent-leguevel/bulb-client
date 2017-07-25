@@ -2,8 +2,7 @@ package fr.bulb;
 
 import fr.bulb.Component.*;
 import fr.bulb.Component.EntryCurrent;
-import fr.bulb.defaultPack.Cable;
-import fr.bulb.defaultPack.ExitCurrent;
+import fr.bulb.defaultPack.*;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +16,7 @@ public class Project {
     }
 
     private String name = "Undefined";
-    public ArrayList<Component> availableComponent = new ArrayList<Component>();
+    public HashMap<String, String> availableComponent = new HashMap<String, String>();
     public HashMap<String, ArrayList<Component>> posedComponent = new HashMap<String, ArrayList<Component>>();
     public ArrayList<Component> circuitEntries = new ArrayList<Component>();
     public ArrayList<Cable> cables = new ArrayList<Cable>();
@@ -33,6 +32,10 @@ public class Project {
 
     public Project(GraphicsContext ctx) {
         this.ctx = ctx;
+        this.availableComponent.put("Button", Button.class.getName());
+        this.availableComponent.put("Lamp", Lamp.class.getName());
+        this.availableComponent.put("AlternatingEntryCurrent", AlternatingEntryCurrent.class.getName());
+        this.availableComponent.put("ExitCurrent", ExitCurrent.class.getName());
         this.posedComponent.put(Cable.class.getName(), new ArrayList<Component>());
     }
 
@@ -58,8 +61,12 @@ public class Project {
         this.orientation = orientation;
     }
 
-    public void setSelectComponent(Class selectComponent) {
-        this.selectComponent = selectComponent;
+    public void setSelectComponent(String selectComponent) {
+        try {
+            this.selectComponent = Class.forName(this.availableComponent.get(selectComponent));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void launchAnimation(){
@@ -296,16 +303,17 @@ public class Project {
     }
 
     public void previewSelectComponent(Coordinate coordinate){
-        if(this.toPreview != null){
-            this.toPreview.clearGUI(this.ctx);
+        if(this.toPreview != null) {
+            this.erasePreviewComponent();
         }
-        Class[] args = {Coordinate.class, GraphicsContext.class};
-        try {
-            this.toPreview = (Component)this.selectComponent.getDeclaredConstructor(args).newInstance(new Coordinate(coordinate.getX(), coordinate.getY(), this.orientation), this.ctx);
-        } catch (Exception e) {
-            System.out.println(e);
+        if(this.selectComponent != null) {
+            Class[] args = {Coordinate.class, GraphicsContext.class};
+            try {
+                this.toPreview = (Component) this.selectComponent.getDeclaredConstructor(args).newInstance(new Coordinate(coordinate.getX(), coordinate.getY(), this.orientation), this.ctx);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
-
         this.drawCircuit();
     }
 
