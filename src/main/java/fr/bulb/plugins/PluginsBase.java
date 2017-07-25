@@ -10,5 +10,5 @@ public interface PluginsBase {
     Double getVersion();
     String getCategory();
     String getDescription();
-
+    String toString();
 }

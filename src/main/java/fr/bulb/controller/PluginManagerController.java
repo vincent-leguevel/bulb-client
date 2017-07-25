@@ -5,8 +5,11 @@ import fr.bulb.constants.PluginStateConstant;
 import fr.bulb.plugins.Plugin;
 import fr.bulb.plugins.PluginBean;
 import fr.bulb.plugins.PluginsLoader;
+import fr.bulb.view.PluginManager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -19,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,18 +47,13 @@ public class PluginManagerController {
     @FXML
     private TableColumn<PluginBean,PluginStateConstant> stateColumn;
     @FXML
-    private ComboBox loadComboBox;
-    @FXML
-    private ComboBox disableComboBox;
-    @FXML
-    private Button loadConfirm;
-    @FXML
-    private Button disableConfirm;
+    private Button loadUnloadButton;
 
     //controller attributs
     private ObservableList<PluginBean> observableList;
-    private Map<Integer,Plugin> plugins;
+    private List<Plugin> plugins;
     private ClientController clientController;
+    private PluginsLoader pluginsLoader;
 
     @FXML
     private void initialize(){
@@ -66,9 +65,14 @@ public class PluginManagerController {
         versionColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, Double>("version"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, String>("category"));
         stateColumn.setCellValueFactory(new PropertyValueFactory<PluginBean, PluginStateConstant>("pluginState"));
-
         tableView.setItems(observableList);
+
+//        Lorsque la liste est vide, on désactive le bouton
+        loadUnloadButton.disableProperty().bind(Bindings.size(observableList).isEqualTo(0));
+//        Lorsque aucune sélection n'est détectée, on désactive le bouton
+        loadUnloadButton.disableProperty().bind(Bindings.isEmpty(tableView.getSelectionModel().getSelectedItems()));
     }
+
 
     @FXML
     public void openChooser() throws IOException, ClassNotFoundException {
@@ -77,29 +81,31 @@ public class PluginManagerController {
         fc.setTitle("Ajoutez un plugin");
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JAR","*.jar"));
 
-        PluginsLoader pl = new PluginsLoader(plugins);
         File file = fc.showOpenDialog(root);
         if(file != null){
-            PluginAddStateConstant pluginAddStateConstant = pl.addPlugin(file);
+            PluginAddStateConstant pluginAddStateConstant = pluginsLoader.addPlugin(file);
 
             if(pluginAddStateConstant == PluginAddStateConstant.ADDED) {
-                //Si le plugin est bien formé on l'ajoute à la liste des plugins en état ajouté
-                PluginBean pb = pl.getPluginInformation(plugins.get(plugins.size()-1));
-                observableList.add(pb);
-                pl.loadPlugin(plugins.get(plugins.size()-1),clientController);
-                pl.unloadPlugin(plugins.get(plugins.size()-1),clientController);
+                //Si le plugin est bien formé on l'ajoute à la liste des plugins avec l'état ajouté
+                pluginsLoader.getPluginInformation(plugins.get(plugins.size()-1));
+                observableList.add(plugins.get(plugins.size()-1).getPluginBean());
             }
         }
     }
 
 
 
-    public Map<Integer,Plugin> getPlugins() {
+    public List<Plugin> getPlugins() {
         return plugins;
     }
 
-    public void setPlugins(Map<Integer,Plugin> plugins) {
+    public void setPlugins(List<Plugin> plugins) {
         this.plugins = plugins;
+        setPluginsLoader();
+    }
+
+    private void setPluginsLoader(){
+        pluginsLoader = new PluginsLoader(plugins);
     }
 
     public ClientController getClientController() {
@@ -108,5 +114,29 @@ public class PluginManagerController {
 
     public void setClientController(ClientController clientController) {
         this.clientController = clientController;
+    }
+
+    /**
+     * Permet d'afficher les plugins dans la liste avec leur état lors de l'ouverture de la fenetre
+     */
+    public void initializeAllListsPlugins() {
+
+        //TableView Ajoute la liste des plugin à la table
+        for(Plugin plugin : plugins){
+            observableList.add(plugin.getPluginBean());
+        }
+    }
+
+    @FXML
+    public void loadUnloadPlugin(ActionEvent event) {
+
+        Plugin currentPlugin = plugins.get(tableView.getSelectionModel().getSelectedIndex());
+        if(currentPlugin.getPluginBean().getPluginState() == PluginStateConstant.DISABLED || currentPlugin.getPluginBean().getPluginState() == PluginStateConstant.ADDED) {
+            pluginsLoader.loadPlugin(currentPlugin,clientController);
+        } else if(currentPlugin.getPluginBean().getPluginState() == PluginStateConstant.LOADED) {
+            pluginsLoader.unloadPlugin(currentPlugin,clientController);
+        }
+
+        tableView.refresh();
     }
 }

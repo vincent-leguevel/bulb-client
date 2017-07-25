@@ -7,7 +7,7 @@ package fr.bulb.constants;
 public enum PluginStateConstant {
     ADDED("Ajouté"),
     LOADED("Chargé"),
-    DISABLED("désactivé"),
+    DISABLED("Désactivé"),
     IMPOSSIBLE_TO_LOAD("Impossible de charger le plugin"),
     IMPOSSIBLE_TO_UNLOAD("Impossible de décharger le plugin");
 

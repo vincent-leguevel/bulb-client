@@ -27,7 +27,7 @@ public class ClientController {
     private Double lastYMouse = 0D;
 
 
-    private Map<Integer,Plugin> plugins = new HashMap<>();
+    private List<Plugin> plugins = new ArrayList<>();
 
     @FXML
     private BorderPane borderPane;
@@ -139,7 +139,7 @@ public class ClientController {
         color = colorPicker.getValue();
     }
 
-    public Map<Integer,Plugin> getPlugins() {
+    public List<Plugin> getPlugins() {
         return plugins;
     }
 

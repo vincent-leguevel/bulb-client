@@ -22,9 +22,9 @@ import java.util.Map;
 public class PluginManager {
 
     ClientController clientController;
-    Map<Integer,Plugin> plugins;
+    List<Plugin> plugins;
 
-    public PluginManager(ClientController clientController, Map<Integer,Plugin> plugins) {
+    public PluginManager(ClientController clientController, List<Plugin> plugins) {
         this.clientController = clientController;
         this.plugins = plugins;
     }
@@ -34,10 +34,11 @@ public class PluginManager {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pluginManager.fxml"));
             Parent root = loader.load();
-
             PluginManagerController pluginManagerController = loader.getController();
             pluginManagerController.setClientController(this.clientController);
+
             pluginManagerController.setPlugins(this.plugins);
+            pluginManagerController.initializeAllListsPlugins();
 
             Stage stage = new Stage();
             stage.setTitle("Inscription");
