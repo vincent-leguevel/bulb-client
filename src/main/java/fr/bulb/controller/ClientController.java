@@ -5,7 +5,10 @@ import fr.bulb.Component.Coordinate.Orientation;
 import fr.bulb.Project;
 import fr.bulb.constants.Tools;
 import fr.bulb.Component.*;
+import fr.bulb.constants.ToolConstant;
+import fr.bulb.plugins.Plugin;
 import fr.bulb.view.Connection;
+import fr.bulb.view.PluginManager;
 import fr.bulb.view.Propos;
 
 import javafx.application.Platform;
@@ -34,6 +37,10 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ClientController {
 
@@ -41,6 +48,9 @@ public class ClientController {
 
     private Double lastXMouse = 0D;
     private Double lastYMouse = 0D;
+
+
+    private List<Plugin> plugins = new ArrayList<>();
 
     @FXML
     private BorderPane borderPane;
@@ -79,7 +89,8 @@ public class ClientController {
     @FXML
     private void initialize(){
 
-        tools.getItems().setAll(FXCollections.observableArrayList(Tools.values()));
+
+        tools.getItems().setAll(FXCollections.observableArrayList(ToolConstant.values()));
         tools.getSelectionModel().selectFirst();
 
         //Delimitation visuelle du canvas
@@ -120,7 +131,12 @@ public class ClientController {
     }
 
     @FXML
-    public void quitter() throws Exception {
+    public void managerPlugins() {
+        new PluginManager(this,plugins).createView();
+    }
+
+    @FXML
+    public void quit() throws Exception {
         Stage root = (Stage) borderPane.getScene().getWindow();
         root.close();
     }
@@ -190,6 +206,34 @@ public class ClientController {
     public void pickColor(ActionEvent e){
         System.out.println("Color");
         color = colorPicker.getValue();
+    }
+
+    public List<Plugin> getPlugins() {
+        return plugins;
+    }
+
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
+
+    public ScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public ComboBox getTools() {
+        return tools;
+    }
+
+    public Pane getCanvasWrapper() {
+        return canvasWrapper;
+    }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
     }
 
     public void keyEventHandler(KeyEvent e){

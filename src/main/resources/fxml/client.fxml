@@ -40,7 +40,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <MenuBar style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
+            <MenuBar fx:id="menuBar" style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" style="-fx-text-fill: #efe9ff " text="Fichier">
                   <items>
@@ -50,7 +50,7 @@
                         <MenuItem mnemonicParsing="false" text="Ouvrir" />
                         <MenuItem mnemonicParsing="false" text="Enregistrer" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="quitter" mnemonicParsing="false" onAction="#quitter" text="Quitter" />
+                        <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quitter" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edition">
@@ -61,7 +61,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Vue">
                   <items>
-                        <CheckMenuItem mnemonicParsing="false" text="Annimation" />
+                        <MenuItem mnemonicParsing="false" text="Annimation" />
                         <CheckMenuItem fx:id="grille" mnemonicParsing="false" text="Grille" />
                         <CheckMenuItem mnemonicParsing="false" text="Snap" />
                   </items>
@@ -70,6 +70,12 @@
                     <items>
                       <MenuItem fx:id="propos" mnemonicParsing="false" onAction="#propos" text="A propos" />
                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Plugins">
+                     <items>
+                        <MenuItem fx:id="managerPlugins" mnemonicParsing="false" onAction="#managerPlugins" text="Gestionnaire de plugins" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                     </items>
                   </Menu>
               </menus>
             </MenuBar>
