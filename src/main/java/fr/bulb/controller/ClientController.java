@@ -165,7 +165,6 @@ public class ClientController {
 
     @FXML
     public void click(MouseEvent e) {
-        System.out.println(e.getButton());
         Coordinate coord = new Coordinate((int)e.getX(), (int)e.getY(), this.project.getOrientation());
         if(e.getButton() == MouseButton.PRIMARY) {
             switch (this.project.getState()) {
@@ -177,8 +176,6 @@ public class ClientController {
                     if (clickedComponent != null) {
                         Input isInput = clickedComponent.isInInput(coord);
                         Output isOutput = clickedComponent.isInOutput(coord);
-
-                        System.out.println("HAS BEEN CLICKED: "+ clickedComponent+"; input: "+ isInput+"; output: "+isOutput);
                         if (isOutput != null) {
                             this.project.activeOutput = isOutput;
                         } else if (isInput != null && this.project.activeOutput != null) {
@@ -203,7 +200,6 @@ public class ClientController {
 
     @FXML
     public void pickColor(ActionEvent e){
-        System.out.println("Color");
         color = colorPicker.getValue();
     }
 
