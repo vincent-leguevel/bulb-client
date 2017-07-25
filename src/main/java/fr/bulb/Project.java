@@ -5,7 +5,6 @@ import fr.bulb.Component.EntryCurrent;
 import fr.bulb.defaultPack.*;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Project {
@@ -16,6 +15,7 @@ public class Project {
     }
 
     private String name = "Undefined";
+    private String projectFile = null;
     public HashMap<String, String> availableComponent = new HashMap<String, String>();
     public HashMap<String, ArrayList<Component>> posedComponent = new HashMap<String, ArrayList<Component>>();
     public ArrayList<Component> circuitEntries = new ArrayList<Component>();
@@ -24,7 +24,6 @@ public class Project {
     public Component toPreview = null;
     private ArrayList<InterractiveComponent> posedInteractiveComponent = new ArrayList<InterractiveComponent>();
     private Class selectComponent;
-    private String path = null;
     private GraphicsContext ctx;
     private State state = State.EDITION;
     private Coordinate.Orientation orientation = Coordinate.Orientation.RIGHT;
@@ -39,10 +38,26 @@ public class Project {
         this.posedComponent.put(Cable.class.getName(), new ArrayList<Component>());
     }
 
-    public Project(String name, String path, GraphicsContext ctx) {
+    public Project(String name, String projectFile, GraphicsContext ctx) {
         this(ctx);
         this.name = name;
-        this.path = path;
+        this.projectFile = projectFile;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getProjectFile() {
+        return projectFile;
+    }
+
+    public void setProjectFile(String projectFile) {
+        this.projectFile = projectFile;
     }
 
     public State getState() {
@@ -89,7 +104,7 @@ public class Project {
     private void drawCircuit(){
         for (ArrayList<Component> components :
                 posedComponent.values()) {
-            if(components.getClass().getName() == Cable.class.getName()){
+            if(components.getClass().getName().equals(Cable.class.getName())){
                 break;
             }
             for (Component component :
@@ -231,7 +246,7 @@ public class Project {
                     }
                     currentComponent.nextComponent = null; //and finally set the nextComponent of my currentComponent to null
                 }else{
-                    continue;
+                    break;
                 }
             }
 
@@ -249,7 +264,7 @@ public class Project {
                     }
                     currentComponent.isInInput(sourceCoordinate).setSource(null);
                 }else{
-                    continue;
+                    break;
                 }
             }
             hasBeenClicked.clearGUI(this.ctx);
@@ -320,5 +335,29 @@ public class Project {
     public void erasePreviewComponent(){
         this.toPreview.clearGUI(this.ctx);
         this.drawCircuit();
+    }
+
+    public void save() throws ClassNotFoundException {
+        StringBuffer toSave = new StringBuffer();
+        toSave.append("{");
+        for (Map.Entry<String, ArrayList<Component>> components :
+                this.posedComponent.entrySet()) {
+            if(Cable.class.isAssignableFrom(Class.forName(components.getKey()))){
+                continue;
+            }
+            toSave.append("\""+components.getKey()+"\":[");
+            ArrayList<Component> value = components.getValue();
+            for(int i = 0; i < value.size(); i++){
+                Coordinate coordinate = value.get(i).getCoord();
+                toSave.append("["+coordinate.getX()+","+coordinate.getY()+","+coordinate.getOrientation()+"]");
+                if(i < value.size()-1){
+                    toSave.append(",");
+                }
+            }
+            toSave.append("]");
+        }
+        toSave.append("}");
+
+        System.out.println(toSave);
     }
 }

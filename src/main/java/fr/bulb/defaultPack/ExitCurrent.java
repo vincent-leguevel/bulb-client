@@ -4,6 +4,7 @@ package fr.bulb.defaultPack;
 import fr.bulb.Component.Component;
 import fr.bulb.Component.Coordinate;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class ExitCurrent extends Component{
     public ExitCurrent(Coordinate coordinate) {
@@ -60,7 +61,9 @@ public class ExitCurrent extends Component{
 //                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.width,this.height);
                 break;
         }
-//        ctx.strokeOval(this.getInput("01").coordinate.getX()-5, this.getInput("01").coordinate.getY()-5, 10, 10);
+        ctx.setStroke(Color.RED);
+        ctx.strokeOval(this.getInput("01").coordinate.getX()-5, this.getInput("01").coordinate.getY()-5, 10, 10);
+        ctx.setStroke(Color.BLACK);
         return null;
     }
 }

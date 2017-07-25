@@ -5,7 +5,6 @@ import fr.bulb.Component.Coordinate.Orientation;
 import fr.bulb.Project;
 import fr.bulb.constants.Tools;
 import fr.bulb.Component.*;
-import fr.bulb.defaultPack.*;
 import fr.bulb.view.Connection;
 import fr.bulb.view.Propos;
 
@@ -18,15 +17,16 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -158,6 +158,7 @@ public class ClientController {
                         Input isInput = clickedComponent.isInInput(coord);
                         Output isOutput = clickedComponent.isInOutput(coord);
 
+                        System.out.println("HAS BEEN CLICKED: "+ clickedComponent+"; input: "+ isInput+"; output: "+isOutput);
                         if (isOutput != null) {
                             this.project.activeOutput = isOutput;
                         } else if (isInput != null && this.project.activeOutput != null) {
@@ -212,25 +213,42 @@ public class ClientController {
         color = colorPicker.getValue();
     }
 
-    public void rotateComponent(KeyEvent e){
-        if(e.getCode() == KeyCode.R) {
-            System.out.println("rotate");
-            Orientation next = null;
-            switch (this.project.getOrientation()) {
-                case UP:
-                    next = Orientation.RIGHT;
-                    break;
-                case RIGHT:
-                    next = Orientation.DOWN;
-                    break;
-                case DOWN:
-                    next = Orientation.LEFT;
-                    break;
-                case LEFT:
-                    next = Orientation.UP;
-                    break;
-            }
-            this.project.setOrientation(next);
+    public void keyEventHandler(KeyEvent e){
+        switch (e.getCode()){
+            case R:
+                Orientation next = null;
+                switch (this.project.getOrientation()) {
+                    case UP:
+                        next = Orientation.RIGHT;
+                        break;
+                    case RIGHT:
+                        next = Orientation.DOWN;
+                        break;
+                    case DOWN:
+                        next = Orientation.LEFT;
+                        break;
+                    case LEFT:
+                        next = Orientation.UP;
+                        break;
+                }
+                this.project.setOrientation(next);
+                break;
+            case S:
+                if(e.isControlDown()){
+                    if(this.project.getProjectFile() == null){
+                        FileChooser fc = new FileChooser();
+                        fc.setTitle("Enregistrer votre projet");
+                        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("BULB","*.bulb"));
+                        File file = fc.showSaveDialog((Stage) borderPane.getScene().getWindow());
+                        this.project.setProjectFile(file.getPath());
+                        this.project.setName(file.getName());
+                    }
+                    try {
+                        this.project.save();
+                    } catch (ClassNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
+                }
         }
     }
 
