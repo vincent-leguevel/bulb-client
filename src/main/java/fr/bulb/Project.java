@@ -228,8 +228,6 @@ public class Project {
             } catch (Exception err) {
                 err.printStackTrace();
             }
-        }else{
-            throw new Error("NO COMPONENT SELECT");
         }
     }
 

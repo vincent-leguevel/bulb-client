@@ -47,8 +47,13 @@ public class Lamp extends Component {
         }else{
             this.state = State.UNPOWERED.value;
         }
-//        draw(ctx);
         return this;
+    }
+
+    @Override
+    public void resetState(GraphicsContext ctx){
+        this.state = this.defaultState;
+        this.draw(ctx);
     }
 
     public Component draw(GraphicsContext ctx) {
@@ -74,7 +79,6 @@ public class Lamp extends Component {
             case DOWN:
                 int x  = this.coord.getX() + this.height / 2 ;
                 ctx.clearRect(this.coord.getX(), this.coord.getY(), this.height, this.width);
-                //ctx.strokeRect(this.coord.getX(), this.coord.getY(), this.height, this.width);
                 ctx.strokeLine(x,this.coord.getY(),x, this.coord.getY() + 25);
                 ctx.strokeLine(x,this.coord.getY() + 75, x, this.coord.getY() + this.width);
                 circleX = this.coord.getX();
@@ -84,7 +88,6 @@ public class Lamp extends Component {
                     ctx.fillOval(circleX, circleY, 50, 50 );
                     ctx.setFill(Color.BLACK);
                 }
-//                ctx.strokeRect(this.hitbox.get("x"),this.hitbox.get("y"),this.height,this.width);
                 break;
         }
 
