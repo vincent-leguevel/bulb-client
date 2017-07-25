@@ -8,11 +8,13 @@ import fr.bulb.Component.*;
 import fr.bulb.view.Connection;
 import fr.bulb.view.Propos;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -25,8 +27,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -69,9 +74,10 @@ public class ClientController {
     @FXML
     private JFXListView<String> actifComponentList;
 
+    Timer eraseLog = new Timer();
+
     @FXML
     private void initialize(){
-
 
         tools.getItems().setAll(FXCollections.observableArrayList(Tools.values()));
         tools.getSelectionModel().selectFirst();
@@ -109,12 +115,12 @@ public class ClientController {
 
     @FXML
     public void propos() throws Exception {
+        Stage root = (Stage) borderPane.getScene().getWindow();
         new Propos().createView();
     }
 
     @FXML
     public void quitter() throws Exception {
-        this.stopAnimation();
         Stage root = (Stage) borderPane.getScene().getWindow();
         root.close();
     }
@@ -126,7 +132,6 @@ public class ClientController {
             this.project.launchAnimation();
         }catch (Error error){
             errorLog.setText(error.getMessage());
-            Timer eraseLog = new Timer();
 
             eraseLog.schedule(new TimerTask() {
                 @Override
@@ -247,8 +252,28 @@ public class ClientController {
                         this.project.save();
                     } catch (ClassNotFoundException e1) {
                         e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 }
+                break;
+            case O:
+                if(e.isControlDown()){
+                    FileChooser fc = new FileChooser();
+                    fc.setTitle("Selectionner votre projet");
+                    fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("BULB","*.bulb"));
+                    File file = fc.showOpenDialog((Stage) borderPane.getScene().getWindow());
+                    this.project.setProjectFile(file.getPath());
+                    this.project.setName(file.getName());
+                    try {
+                        this.project.load();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (ClassNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                break;
         }
     }
 

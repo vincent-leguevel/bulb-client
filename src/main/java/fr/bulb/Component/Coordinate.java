@@ -47,6 +47,6 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return "{ x: "+ this.x+", y: "+this.y+", orientation :"+ this.orientation+"}";
+        return "["+ this.x+","+this.y+","+ this.orientation+"]";
     }
 }

@@ -1,10 +1,14 @@
 package fr.bulb;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import fr.bulb.Component.*;
 import fr.bulb.Component.EntryCurrent;
 import fr.bulb.defaultPack.*;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class Project {
@@ -100,24 +104,6 @@ public class Project {
             }
         }
     }
-
-    private void drawCircuit(){
-        for (ArrayList<Component> components :
-                posedComponent.values()) {
-            if(components.getClass().getName().equals(Cable.class.getName())){
-                break;
-            }
-            for (Component component :
-                    components) {
-                component.clearGUI(ctx);
-                component.draw(ctx);
-            }
-        }
-        for (Component cable :
-                posedComponent.get(Cable.class.getName())) {
-            cable.draw(ctx);
-        }
-    }
     
     private void tickCircuit(){
         for (Component entry :
@@ -145,6 +131,12 @@ public class Project {
         }
     }
 
+    public void purgeAnimation(){
+        this.timerAnimation.cancel();
+        this.timerAnimation.purge();
+    }
+
+    //Assertion
     public Component isInComponent(Coordinate coordinate){
         for(Map.Entry<String, ArrayList<Component>> entry :
                 this.posedComponent.entrySet()) {
@@ -163,6 +155,49 @@ public class Project {
         return null;
     }
 
+    private boolean isInteractif(Class classe){
+        return InterractiveComponentInterface.class.isAssignableFrom(classe);
+    }
+
+    private boolean isBeginning(Class classe){
+        return EntryCurrent.class.isAssignableFrom(classe);
+    }
+
+    private boolean circuitIsValid(Component source){
+        for(Output output:
+                source.getOutputs().values()){
+            if (output.nextComponent == null){
+                return false;
+            }
+            if(ExitCurrent.class.isAssignableFrom(output.nextComponent.getClass())){
+                return true;
+            }
+            return circuitIsValid(output.nextComponent);
+        }
+
+        return false;
+    }
+
+    private boolean circuitIsValid(){
+        if(this.circuitEntries.size() == 0){
+            return false;
+        }
+        ArrayList<Boolean> res = new ArrayList<Boolean>();
+        for(Component entry:
+                this.circuitEntries){
+            res.add(this.circuitIsValid(entry));
+        }
+
+        for (boolean result:
+                res){
+            if(!result){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void clickOnComponent(Coordinate coord){
         for(InterractiveComponent component :
                 posedInteractiveComponent) {
@@ -172,6 +207,7 @@ public class Project {
         }
     }
 
+    //Component Gestion
     private void resetComponents(){
         for (ArrayList<Component> components:
                 this.posedComponent.values()){
@@ -223,12 +259,24 @@ public class Project {
 
     public void addCable(Output source, Input dest){
         Component cable = new Cable(source.coordinate, dest.coordinate, this.ctx);
-        Component componentSource = source.originComponent;
         Component componentDest = dest.getComponent();
         source.nextComponent = cable;
         cable.getOutput("01").nextComponent = componentDest;
-        cable.getInput("01").setSource(componentSource.isInOutput(source.coordinate));
+        cable.getInput("01").setSource(source);
         componentDest.isInInput(dest.coordinate).setSource(cable.getOutput("01"));
+        this.posedComponent.get(Cable.class.getName()).add(cable);
+    }
+
+    public void addCable(Coordinate source, Coordinate dest){
+        Component sourceComponent = this.isInComponent(source);
+        Output sourceOutput = sourceComponent.isInOutput(source);
+        Component destComponent = this.isInComponent(dest);
+        Input destInput = destComponent.isInInput(dest);
+        Component cable = new Cable(source, dest, this.ctx);
+        sourceOutput.nextComponent = cable;
+        cable.getOutput("01").nextComponent = destComponent;
+        cable.getInput("01").setSource(sourceOutput);
+        destInput.setSource(cable.getOutput("01"));
         this.posedComponent.get(Cable.class.getName()).add(cable);
     }
 
@@ -274,47 +322,23 @@ public class Project {
         }
     }
 
-    private boolean isInteractif(Class classe){
-        return InterractiveComponentInterface.class.isAssignableFrom(classe);
-    }
-
-    private boolean isBeginning(Class classe){
-        return EntryCurrent.class.isAssignableFrom(classe);
-    }
-
-    private boolean circuitIsValid(Component source){
-        for(Output output:
-                source.getOutputs().values()){
-            if (output.nextComponent == null){
-                return false;
+    //GUI
+    private void drawCircuit(){
+        for (ArrayList<Component> components :
+                posedComponent.values()) {
+            if(components.getClass().getName().equals(Cable.class.getName())){
+                break;
             }
-            if(ExitCurrent.class.isAssignableFrom(output.nextComponent.getClass())){
-                return true;
-            }
-            return circuitIsValid(output.nextComponent);
-        }
-
-        return false;
-    }
-
-    private boolean circuitIsValid(){
-        if(this.circuitEntries.size() == 0){
-            return false;
-        }
-        ArrayList<Boolean> res = new ArrayList<Boolean>();
-        for(Component entry:
-                this.circuitEntries){
-            res.add(this.circuitIsValid(entry));
-        }
-
-        for (boolean result:
-                res){
-            if(!result){
-                return false;
+            for (Component component :
+                    components) {
+                component.clearGUI(ctx);
+                component.draw(ctx);
             }
         }
-
-        return true;
+        for (Component cable :
+                posedComponent.get(Cable.class.getName())) {
+            cable.draw(ctx);
+        }
     }
 
     public void previewSelectComponent(Coordinate coordinate){
@@ -337,27 +361,85 @@ public class Project {
         this.drawCircuit();
     }
 
-    public void save() throws ClassNotFoundException {
-        StringBuffer toSave = new StringBuffer();
-        toSave.append("{");
+
+    //LOAD & SAVE project
+    public void save() throws ClassNotFoundException, IOException {
+        System.out.println("save");
+        HashMap<String, ArrayList> toSave = new HashMap<>();
+
         for (Map.Entry<String, ArrayList<Component>> components :
                 this.posedComponent.entrySet()) {
             if(Cable.class.isAssignableFrom(Class.forName(components.getKey()))){
+                toSave.put(components.getKey(), new ArrayList<HashMap<String, Coordinate>>());
+                for (Component cable :
+                        components.getValue()) {
+                    HashMap<String, Coordinate> current = new HashMap<>();
+                    current.put("in", cable.getInput("01").coordinate);
+                    current.put("out", cable.getOutput("01").coordinate);
+                    toSave.get(components.getKey()).add(current);
+                }
                 continue;
             }
-            toSave.append("\""+components.getKey()+"\":[");
-            ArrayList<Component> value = components.getValue();
-            for(int i = 0; i < value.size(); i++){
-                Coordinate coordinate = value.get(i).getCoord();
-                toSave.append("["+coordinate.getX()+","+coordinate.getY()+","+coordinate.getOrientation()+"]");
-                if(i < value.size()-1){
-                    toSave.append(",");
-                }
+            toSave.put(components.getKey(), new ArrayList<Coordinate>());
+            for (Component component:
+                    components.getValue()){
+                toSave.get(components.getKey()).add(component.getCoord());
             }
-            toSave.append("]");
         }
-        toSave.append("}");
 
         System.out.println(toSave);
+
+        Gson gson = new Gson();
+
+
+        FileWriter out = new FileWriter(new File(this.projectFile));
+        out.append(gson.toJson(toSave));
+        out.close();
+    }
+
+    public void load() throws IOException, ClassNotFoundException {
+        Gson gson = new Gson();
+
+        BufferedReader in = new BufferedReader(new FileReader(this.projectFile));
+        String line;
+
+        StringBuffer data = new StringBuffer();
+
+        while ((line = in.readLine()) != null){
+            data.append(line);
+        }
+
+        Type type = new TypeToken<HashMap<String, ArrayList>>(){}.getType();
+        HashMap<String, ArrayList> componentsSource = gson.fromJson(data.toString(),type);
+
+        Type typeCoord = new TypeToken<Coordinate>(){}.getType();
+        for (Map.Entry<String, ArrayList> components:
+                componentsSource.entrySet()){
+            if(Cable.class.isAssignableFrom(Class.forName(components.getKey()))){
+                continue;
+            }
+
+            for (Object coord :
+                    components.getValue()) {
+                String stringCoord = gson.toJson(coord);
+
+                Coordinate parseCoord = gson.fromJson(stringCoord, typeCoord);
+
+                this.addComponent(parseCoord, components.getKey());
+            }
+
+        }
+
+        Type typeCableCoord = new TypeToken<HashMap<String, Coordinate>>(){}.getType();
+        for (Object coord:
+                componentsSource.get(Cable.class.getName())) {
+            String stringCoord = gson.toJson(coord);
+
+            HashMap<String, Coordinate> parseCoord = gson.fromJson(stringCoord, typeCableCoord);
+
+            this.addCable(parseCoord.get("in"), parseCoord.get("out"));
+        }
+
+        this.drawCircuit();
     }
 }
