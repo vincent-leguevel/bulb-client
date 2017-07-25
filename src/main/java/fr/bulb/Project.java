@@ -355,7 +355,9 @@ public class Project {
     }
 
     public void erasePreviewComponent(){
-        this.toPreview.clearGUI(this.ctx);
+        if(this.toPreview != null) {
+            this.toPreview.clearGUI(this.ctx);
+        }
         this.drawCircuit();
     }
 
