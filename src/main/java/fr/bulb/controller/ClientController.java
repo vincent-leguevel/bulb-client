@@ -1,23 +1,22 @@
 package fr.bulb.controller;
 
 import com.jfoenix.controls.JFXListView;
+import fr.bulb.Component.Component;
+import fr.bulb.Component.Coordinate;
 import fr.bulb.Component.Coordinate.Orientation;
+import fr.bulb.Component.Input;
+import fr.bulb.Component.Output;
 import fr.bulb.Project;
-import fr.bulb.constants.Tools;
-import fr.bulb.Component.*;
 import fr.bulb.constants.ToolConstant;
 import fr.bulb.plugins.Plugin;
 import fr.bulb.view.Connection;
 import fr.bulb.view.PluginManager;
 import fr.bulb.view.Propos;
-
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -25,22 +24,19 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ClientController {
 
@@ -68,7 +64,7 @@ public class ClientController {
     private ColorPicker colorPicker;
 
     @FXML
-    private ComboBox<Tools> tools;
+    private ComboBox<ToolConstant> tools;
 
     @FXML
     private Pane canvasWrapper;
@@ -83,6 +79,9 @@ public class ClientController {
 
     @FXML
     private JFXListView<String> actifComponentList;
+
+    @FXML
+    private MenuBar menuBar;
 
     Timer eraseLog = new Timer();
 
