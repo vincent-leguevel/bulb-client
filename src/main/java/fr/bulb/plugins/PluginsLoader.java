@@ -182,8 +182,4 @@ public class PluginsLoader {
             e.printStackTrace();
         }
     }
-
-    public List<Plugin> getLol() {
-        return plugins;
-    }
 }

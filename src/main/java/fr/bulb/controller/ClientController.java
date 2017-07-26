@@ -42,10 +42,6 @@ public class ClientController {
 
     private Project project;
 
-    private Double lastXMouse = 0D;
-    private Double lastYMouse = 0D;
-
-
     private List<Plugin> plugins = new ArrayList<>();
 
     @FXML
@@ -56,9 +52,6 @@ public class ClientController {
 
     @FXML
     private Canvas canvas;
-
-    @FXML
-    private Label zoomState;
 
     @FXML
     private ColorPicker colorPicker;
@@ -72,6 +65,9 @@ public class ClientController {
     private Color color = Color.WHITE;
 
     @FXML
+    public Pane topPane;
+
+    @FXML
     private Text errorLog;
 
     @FXML
@@ -83,11 +79,10 @@ public class ClientController {
     @FXML
     private MenuBar menuBar;
 
-    Timer eraseLog = new Timer();
+    private Timer eraseLog = new Timer();
 
     @FXML
     private void initialize(){
-
 
         tools.getItems().setAll(FXCollections.observableArrayList(ToolConstant.values()));
         tools.getSelectionModel().selectFirst();
@@ -203,32 +198,84 @@ public class ClientController {
         color = colorPicker.getValue();
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     public List<Plugin> getPlugins() {
         return plugins;
+    }
+
+    public void setPlugins(List<Plugin> plugins) {
+        this.plugins = plugins;
     }
 
     public BorderPane getBorderPane() {
         return borderPane;
     }
 
+    public void setBorderPane(BorderPane borderPane) {
+        this.borderPane = borderPane;
+    }
+
     public ScrollPane getScrollPane() {
         return scrollPane;
+    }
+
+    public void setScrollPane(ScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
     }
 
     public Canvas getCanvas() {
         return canvas;
     }
 
-    public ComboBox getTools() {
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
+    public ComboBox<ToolConstant> getTools() {
         return tools;
     }
 
-    public Pane getCanvasWrapper() {
-        return canvasWrapper;
+    public void setTools(ComboBox<ToolConstant> tools) {
+        this.tools = tools;
+    }
+
+    public Pane getTopPane() {
+        return topPane;
+    }
+
+    public void setTopPane(Pane topPane) {
+        this.topPane = topPane;
+    }
+
+    public Text getErrorLog() {
+        return errorLog;
+    }
+
+    public void setErrorLog(Text errorLog) {
+        this.errorLog = errorLog;
     }
 
     public MenuBar getMenuBar() {
         return menuBar;
+    }
+
+    public void setMenuBar(MenuBar menuBar) {
+        this.menuBar = menuBar;
+    }
+
+    public Timer getEraseLog() {
+        return eraseLog;
+    }
+
+    public void setEraseLog(Timer eraseLog) {
+        this.eraseLog = eraseLog;
     }
 
     public void keyEventHandler(KeyEvent e){
