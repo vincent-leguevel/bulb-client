@@ -11,10 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -89,6 +86,12 @@ public class PluginManagerController {
                 //Si le plugin est bien formé on l'ajoute à la liste des plugins avec l'état ajouté
                 pluginsLoader.getPluginInformation(plugins.get(plugins.size()-1));
                 observableList.add(plugins.get(plugins.size()-1).getPluginBean());
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setContentText("Impossible de charger le plugin");
+                alert.setHeaderText(null);
+                alert.showAndWait();
             }
         }
     }
